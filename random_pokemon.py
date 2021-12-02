@@ -63,7 +63,7 @@ def evaluate_index(generation):
 def main():
     generation = evaluate_generation()
 
-    pokemon = linecache.getline("nameslist.txt", evaluate_index(generation))[:-1]
+    pokemon = linecache.getline("/usr/local/opt/nameslist.txt", evaluate_index(generation))[:-1]
 
     print(f"{pokemon} - {roman_numerals(generation)} Generation")
 

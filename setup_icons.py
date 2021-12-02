@@ -52,7 +52,7 @@ def build_new_image(png_idx_img):
     return Image.fromarray(final_rgba_img_arr)
 
 def main():
-    upscale = 15 # defualt value
+    upscale = 9 # defualt value
 
     if len(sys.argv) > 1:
         command = sys.argv[1] # this must exist

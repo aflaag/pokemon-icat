@@ -1,6 +1,6 @@
 #!/bin/sh
 
-output=$(python /usr/local/opt/random_pokemon.py $1)
+output=$(python3 /usr/local/opt/random_pokemon.py $1)
 # output=$(python random_pokemon.py $1)
 
 echo $output

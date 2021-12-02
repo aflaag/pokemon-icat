@@ -10,6 +10,6 @@ sudo cp ./*.py /usr/local/opt/pokemon-icat
 sudo cp pokemon-icat.sh /usr/local/opt/pokemon-icat
 sudo cp nameslist.txt /usr/local/opt/pokemon-icat
 
-sudo python /usr/local/opt/pokemon-icat/setup_icons.py $1 $2
+sudo python3 /usr/local/opt/pokemon-icat/setup_icons.py $1 $2
 
 # non so se legge il programma o va pescato in PATH

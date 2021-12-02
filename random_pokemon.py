@@ -33,10 +33,10 @@ def evaluate_generation():
                 if not all(map(lambda g: is_valid_generation(int(g)), generations)):
                     raise ValueError("Invalid generation.")
     
-                if len(generations) == 1:
-                    generation = int(sys.argv[2])
-                else:
-                    generation = int(choice(generations))
+                # if len(generations) == 1:
+                #     generation = int(sys.argv[2])
+                # else:
+                generation = int(choice(generations))
     
                 if not is_valid_generation(generation):
                     raise ValueError("Invalid generation.")

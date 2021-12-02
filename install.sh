@@ -4,7 +4,7 @@ chmod +x pokemon-icat.sh
 
 sudo mkdir -p /usr/local/opt
 sudo mkdir /usr/local/opt/pokemon-icat
-sudo rkdir /usr/local/opt/pokemon-icat/pokemon-icons
+sudo mkdir /usr/local/opt/pokemon-icat/pokemon-icons
 
 sudo cp ./*.py /usr/local/opt/pokemon-icat
 sudo cp pokemon-icat.sh /usr/local/opt/pokemon-icat

@@ -85,7 +85,7 @@ def main():
         # save the processed RGBA image
         img.save(f"{home}/.pokemon-icat/pokemon-icons/{pokemon}.png")
     
-        print(f"{pokemon} saved! [{i + 1}/898]")
+        print(f"[{i + 1}/898] {pokemon} saved!")
 
 if __name__ == "__main__":
     main()

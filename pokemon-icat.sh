@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 output=$(python3 $HOME/.pokemon-icat/random_pokemon.py $1)
 # output=$(python random_pokemon.py $1)

@@ -9,6 +9,6 @@ cp ./*.py /usr/local/opt/pokemon-icat
 cp pokemon-icat.sh /usr/local/opt/pokemon-icat
 cp nameslist.txt /usr/local/opt/pokemon-icat
 
-python /usr/local/opt/pokemon-icat/setup_icons.py
+python /usr/local/opt/pokemon-icat/setup_icons.py $1 $2
 
 # non so se legge il programma o va pescato in PATH

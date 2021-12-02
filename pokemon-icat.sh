@@ -1,9 +1,13 @@
 #!/bin/sh
 
-# random_pokemon=$(python /usr/local/opt/random_pokemon.py)
-random_pokemon=$(python random_pokemon.py -g 2 4 5 1)
+output=$(python /usr/local/opt/random_pokemon.py $1)
+# output=$(python random_pokemon.py $1)
 
-echo $random_pokemon
+echo $output
 
-# kitty icat --align left /usr/local/opt/pokemon_icat/pokemon-icons/$random_pokemon.png
-kitty icat --align left pokemon-icons/$random_pokemon.png
+IFS=' ' read -r -a split <<< "$output"
+
+pokemon=${split[0]}
+
+kitty icat --align left --silent /usr/local/opt/pokemon_icat/pokemon-icons/$pokemon.png
+# kitty icat --align left --silent pokemon-icons/$pokemon.png

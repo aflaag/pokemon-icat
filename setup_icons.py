@@ -63,7 +63,7 @@ def main():
             except:
                 raise SyntaxError("Missing upscaling factor.")
 
-    for i, pokemon_raw in enumerate(open("/usr/local/opt/pokemon-icat/nameslist.txt").readlines()):
+    for i, pokemon_raw in enumerate(open("$HOME/.pokemon-icat/nameslist.txt").readlines()):
         # remove the '\n' a the end
         pokemon = pokemon_raw[:-1]
     
@@ -81,7 +81,7 @@ def main():
         img = new_rgba_img.resize((new_rgba_img.width * upscale, new_rgba_img.height * upscale), Image.BOX)
 
         # save the processed RGBA image
-        img.save(f"/usr/local/opt/pokemon-icat/pokemon-icons/{pokemon}.png")
+        img.save(f"$HOME/.pokemon-icat/pokemon-icons/{pokemon}.png")
     
         print(f"{pokemon} saved! [{i + 1}/898]")
 

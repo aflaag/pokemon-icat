@@ -2,8 +2,8 @@
 
 chmod +x pokemon-icat.sh
 
-sudo mkdir $HOME/.pokemon-icat
-sudo mkdir $HOME/.pokemon-icat/pokemon-icons
+sudo mkdir -p $HOME/.pokemon-icat
+sudo mkdir -p $HOME/.pokemon-icat/pokemon-icons
 
 sudo cp ./*.py $HOME/.pokemon-icat
 sudo cp pokemon-icat.sh $HOME/.pokemon-icat

@@ -1,4 +1,5 @@
 from random import randint, choice
+from os.path import expanduser
 import linecache
 import sys
 
@@ -63,7 +64,8 @@ def evaluate_index(generation):
 def main():
     generation = evaluate_generation()
 
-    pokemon = linecache.getline("$HOME/.pokemon-icat/nameslist.txt", evaluate_index(generation))[:-1]
+    home = expanduser("~")
+    pokemon = linecache.getline(home + "/.pokemon-icat/nameslist.txt", evaluate_index(generation))[:-1]
 
     print(f"{pokemon} - {roman_numerals(generation)} Generation")
 

@@ -1,4 +1,4 @@
-from typing import final
+from os.path import expanduser
 from PIL import Image
 import requests
 from io import BytesIO
@@ -63,7 +63,9 @@ def main():
             except:
                 raise SyntaxError("Missing upscaling factor.")
 
-    for i, pokemon_raw in enumerate(open("$HOME/.pokemon-icat/nameslist.txt").readlines()):
+    home = expanduser("~")
+
+    for i, pokemon_raw in enumerate(open(home + "/.pokemon-icat/nameslist.txt").readlines()):
         # remove the '\n' a the end
         pokemon = pokemon_raw[:-1]
     

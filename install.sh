@@ -2,6 +2,7 @@
 
 chmod +x pokemon-icat.sh
 
+sudo mkdir -p /usr/local/opt
 sudo mkdir /usr/local/opt/pokemon-icat
 sudo rkdir /usr/local/opt/pokemon-icat/pokemon-icons
 

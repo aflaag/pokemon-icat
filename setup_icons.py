@@ -83,7 +83,7 @@ def main():
         img = new_rgba_img.resize((new_rgba_img.width * upscale, new_rgba_img.height * upscale), Image.BOX)
 
         # save the processed RGBA image
-        img.save(f"$HOME/.pokemon-icat/pokemon-icons/{pokemon}.png")
+        img.save(f"{home}/.pokemon-icat/pokemon-icons/{pokemon}.png")
     
         print(f"{pokemon} saved! [{i + 1}/898]")
 

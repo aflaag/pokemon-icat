@@ -28,7 +28,9 @@ By default, this will download every Pokémon with an upscaling factor of the or
 ./install.sh -u 15
 ```
 
-Then, to show a random pokemon, simply run:
+## Usage
+
+To show a random pokemon, simply run:
 
 ```sh
 $HOME/.pokemon-icat/pokemon-icat.sh

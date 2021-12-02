@@ -2,13 +2,13 @@
 
 chmod +x pokemon-icat.sh
 
-mkdir /usr/local/opt/pokemon-icat
-rkdir /usr/local/opt/pokemon-icat/pokemon-icons
+sudo mkdir /usr/local/opt/pokemon-icat
+sudo rkdir /usr/local/opt/pokemon-icat/pokemon-icons
 
-cp ./*.py /usr/local/opt/pokemon-icat
-cp pokemon-icat.sh /usr/local/opt/pokemon-icat
-cp nameslist.txt /usr/local/opt/pokemon-icat
+sudo cp ./*.py /usr/local/opt/pokemon-icat
+sudo cp pokemon-icat.sh /usr/local/opt/pokemon-icat
+sudo cp nameslist.txt /usr/local/opt/pokemon-icat
 
-python /usr/local/opt/pokemon-icat/setup_icons.py $1 $2
+sudo python /usr/local/opt/pokemon-icat/setup_icons.py $1 $2
 
 # non so se legge il programma o va pescato in PATH

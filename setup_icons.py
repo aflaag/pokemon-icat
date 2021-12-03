@@ -3,6 +3,7 @@ from PIL import Image
 import requests
 from io import BytesIO
 import numpy as np
+from time import sleep
 import sys
 
 def remove_horizontal_margins(rgba):
@@ -71,7 +72,15 @@ def main():
     
         # download the image in PNG indexed format
         url = "https://img.pokemondb.net/sprites/sword-shield/icon/" + pokemon + ".png"
-        response = requests.get(url)
+        
+        # see https://github.com/ph04/pokemon-icat/issues/1
+        while True:
+            try:
+                response = requests.get(url)
+                break
+            except:
+                print("Rate limited, waiting 5 seconds before trying again.")
+                sleep(5)
     
         # load the image in PNG indexed format
         png_idx_img = Image.open(BytesIO(response.content))

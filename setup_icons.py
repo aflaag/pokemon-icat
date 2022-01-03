@@ -5,6 +5,15 @@ from io import BytesIO
 import numpy as np
 from time import sleep
 import sys
+import asyncio
+from aiohttp import ClientSession
+
+counter = 0
+pkm_qtd = 0
+NAME_LIST = expanduser("~") + "/.pokemon-icat/nameslist.txt"
+SAVE_POINT = expanduser("~") + "/.pokemon-icat/pokemon-icons/{}.png"
+URL_POINT = "https://img.pokemondb.net/sprites/sword-shield/icon/{}.png"
+upscale = 9
 
 def remove_horizontal_margins(rgba):
     y = 0
@@ -52,49 +61,63 @@ def build_new_image(png_idx_img):
     # return the new image from the new RGBA array
     return Image.fromarray(final_rgba_img_arr)
 
-def main():
-    upscale = 9 # defualt value
+async def gather_pokemons(pokemons):
+    global pkm_qtd
+    pkm_qtd = len(pokemons)
 
+    async with ClientSession() as session:
+        while pokemons:
+            batch = pokemons[:10]
+            del pokemons[:10]
+
+            # remove the '\n' at the end and create task
+            tasks = [asyncio.create_task(get_pokemon(pkm[:-1], session))
+                    for pkm in batch]
+
+            # gather the entire batch and sleep a bit
+            await asyncio.gather(*tasks)
+            await asyncio.sleep(1)
+
+async def get_pokemon(pokemon, session):
+    global counter
+
+    url = URL_POINT.format(pokemon)
+
+    async with session.get(url) as response:
+        # load the image in PNG indexed format
+        png_idx_img = Image.open(BytesIO(await response.read()))
+
+    # return the new image from the new RGBA array
+    new_rgba_img = build_new_image(png_idx_img)
+
+    # upscale the RGBA image with the upscaling factor
+    img = new_rgba_img.resize((new_rgba_img.width * upscale, new_rgba_img.height
+* upscale), Image.BOX)
+
+    # save the processed RGBA image
+    img.save(SAVE_POINT.format(pokemon))
+
+    # update counter and log progress
+    counter += 1
+    print(f"[{counter}/{pkm_qtd}] {pokemon} saved!")
+    
+
+def main():
     if len(sys.argv) > 1:
         command = sys.argv[1] # this must exist
 
         if command == "--upscale" or command == "-u":
             try:
+                global upscale
                 upscale = int(sys.argv[2])
             except:
                 raise SyntaxError("Missing upscaling factor.")
 
-    home = expanduser("~")
+    with open(NAME_LIST) as file:
+        pokemons = file.readlines()
 
-    for i, pokemon_raw in enumerate(open(home + "/.pokemon-icat/nameslist.txt").readlines()):
-        # remove the '\n' a the end
-        pokemon = pokemon_raw[:-1]
-    
-        # download the image in PNG indexed format
-        url = "https://img.pokemondb.net/sprites/sword-shield/icon/" + pokemon + ".png"
-        
-        # see https://github.com/ph04/pokemon-icat/issues/1
-        while True:
-            try:
-                response = requests.get(url)
-                break
-            except:
-                print("Rate limited, waiting 5 seconds before trying again.")
-                sleep(5)
-    
-        # load the image in PNG indexed format
-        png_idx_img = Image.open(BytesIO(response.content))
+    asyncio.run(gather_pokemons(pokemons))
 
-        # return the new image from the new RGBA array
-        new_rgba_img = build_new_image(png_idx_img)
-
-        # upscale the RGBA image with the upscaling factor
-        img = new_rgba_img.resize((new_rgba_img.width * upscale, new_rgba_img.height * upscale), Image.BOX)
-
-        # save the processed RGBA image
-        img.save(f"{home}/.pokemon-icat/pokemon-icons/{pokemon}.png")
-    
-        print(f"[{i + 1}/898] {pokemon} saved!")
 
 if __name__ == "__main__":
     main()

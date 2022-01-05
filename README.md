@@ -42,3 +42,9 @@ If you want to specify one or more generations in particular, simply add `"--gen
 ```sh
 $HOME/.pokemon-icat/pokemon-icat.sh "-g 3 4 5"
 ```
+
+If you want to show a pokemon in particular, just use the `--p [pokemon]` flag, for example:
+
+```sh
+$HOME/.pokemon-icat/pokemon-icat.sh "-p charizard"
+```

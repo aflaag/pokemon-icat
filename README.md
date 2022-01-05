@@ -13,6 +13,7 @@ To install the script, you must first have all the necessary packages installed:
 - Python 3.x
 - pip3
 - numpy
+- aiohttp
 
 After making sure that you have all of these installed, run this command:
 

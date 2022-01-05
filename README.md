@@ -10,7 +10,7 @@ This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemo
 
 To install the script, you must first have all the necessary packages installed:
 
-- Python 3.x
+- Python 3.8.x
 - pip3
 - numpy
 - aiohttp

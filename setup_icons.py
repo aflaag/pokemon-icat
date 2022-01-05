@@ -22,7 +22,7 @@ def remove_horizontal_margins(rgba):
         if not any(map(lambda p: p[3], rgba[y])):
             rgba.pop(y)
 
-            y -= 1
+            continue
 
         y += 1
 

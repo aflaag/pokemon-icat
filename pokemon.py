@@ -37,8 +37,8 @@ def evaluate_index_from_generation(generation):
     return randint(start, stop) - 1
 
 # TODO: i bet it can be done better, but hey, this script is garbage anyway
-def evaluate_index_from_name(name_target):
-    with open("nameslist.txt") as f:
+def evaluate_index_from_name(home, name_target):
+    with open(home + "/.pokemon-icat/nameslist.txt") as f:
         names = f.read().split("\n")
         
         for idx, name in enumerate(names):
@@ -76,7 +76,7 @@ def main():
             try:
                 name = sys.argv[2]
 
-                index = evaluate_index_from_name(name)
+                index = evaluate_index_from_name(home, name)
 
                 pokemon = linecache.getline(home + "/.pokemon-icat/nameslist.txt", index)[:-1]
                

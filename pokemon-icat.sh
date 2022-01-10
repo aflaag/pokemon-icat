@@ -1,6 +1,6 @@
 #!/bin/bash
 
-output=$(python3 $HOME/.pokemon-icat/pokemon.py $1)
+output=$(python3 $HOME/.pokemon-icat/pokemon.py ${@:1})
 
 echo $output
 

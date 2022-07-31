@@ -12,7 +12,7 @@ counter = 0
 pkm_qtd = 0
 NAME_LIST = expanduser("~") + "/.pokemon-icat/nameslist.txt"
 SAVE_POINT = expanduser("~") + "/.pokemon-icat/pokemon-icons/{}.png"
-URL_POINT = "https://img.pokemondb.net/sprites/sword-shield/icon/{}.png"
+URL_POINT = "https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen8/regular/{}.png"
 upscale = 9
 
 def remove_horizontal_margins(rgba):

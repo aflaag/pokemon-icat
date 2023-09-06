@@ -4,18 +4,20 @@ This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemo
 
 ![Screenshot](screenshot.png)
 
+## Requirements
+
+To use the script, you must first have all the necessary programs and packages installed:
+
+- a terminal which supports images (for example `kitty`, which requires `ImageMagick`, and it's the default inside [pokemon-icat.sh](https://github.com/ph04/pokemon-icat/blob/main/pokemon-icat.sh))
+- `Python 3.8.x`
+- `numpy` (Python library)
+- `aiohttp` (Python library)
+
 ## Installation
 
 **Important**: this script currently works only on Kitty, but in [pokemon-icat.sh](pokemon-icat.sh) you can change this behaviour by editing the last line, which shows the picture in the terminal.
 
-To install the script, you must first have all the necessary packages installed:
-
-- Python 3.8.x
-- pip3
-- numpy
-- aiohttp
-
-After making sure that you have all of these installed, run this command:
+After making sure that you have all of the requirements, run this command:
 
 ```sh
 git clone https://github.com/ph04/pokemon-icat && cd pokemon-icat && chmod +x install.sh && ./install.sh

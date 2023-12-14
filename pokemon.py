@@ -1,7 +1,10 @@
-from random import randint, choice
 from os.path import expanduser
 import linecache
 import sys
+
+from random import randint, choice
+
+from converter import FILENAME_TO_NAME, NAME_TO_GENERATION
 
 def is_valid_generation(generation):
     return 1 <= generation <= 8
@@ -20,7 +23,7 @@ def roman_numerals(generation):
 
     return roman[generation]
 
-def evaluate_index_from_generation(generation):
+def get_random_pokemon_from_gen(generation):
     ranges = {
         1: (1, 151),
         2: (152, 251),
@@ -33,71 +36,41 @@ def evaluate_index_from_generation(generation):
     }
     
     start, stop = ranges[generation]
-    
-    return randint(start, stop) - 1
 
-# TODO: i bet it can be done better, but hey, this script is garbage anyway
-def evaluate_index_from_name(home, name_target):
-    with open(home + "/.pokemon-icat/nameslist.txt") as f:
-        names = f.read().split("\n")
-        
-        for idx, name in enumerate(names):
-            if name == name_target:
-                return idx + 1
+    names = list(FILENAME_TO_NAME.values())
 
-def evaluate_generation_from_index(index):
-    ranges = {
-        (1, 151): 1,
-        (152, 251): 2,
-        (252, 386): 3,
-        (387, 493): 4,
-        (494, 649): 5,
-        (650, 721): 6,
-        (722, 809): 7,
-        (810, 898): 8,
-    }
-
-    for k in ranges.keys():
-        if k[0] <= index <= k[1]:
-            return ranges[k]
+    return names[randint(start, stop) - 1]
 
 def main():
-    generation = randint(1, 8) # default
-
-    home = expanduser("~")
-
-    pokemon = linecache.getline(home + "/.pokemon-icat/nameslist.txt", evaluate_index_from_generation(generation))[:-1]
+    # by default, a random pokemon from a random generation is picked
+    generation = randint(1, 8)
     gen_roman = roman_numerals(generation)
+
+    pokemon = get_random_pokemon_from_gen(generation)
 
     if len(sys.argv) > 1:
         command = sys.argv[1]
     
-        if command == "--pokemon" or command == "-p":
+        if command == "--pokemon" or command == "-p": # choose the pokemon manually
             try:
-                name = sys.argv[2]
-
-                index = evaluate_index_from_name(home, name)
-
-                pokemon = linecache.getline(home + "/.pokemon-icat/nameslist.txt", index)[:-1]
+                pokemon = sys.argv[2]
                
-                gen_roman = roman_numerals(evaluate_generation_from_index(index))
+                gen_roman = roman_numerals(NAME_TO_GENERATION[pokemon])
             except:
                 raise ValueError("Missing pokemon.")
-        elif command == "--gen" or command == "-g":
+        elif command == "--gen" or command == "-g": # choose from a set of generations
             generations = sys.argv[2:]
     
             if generations:
+                # TODO: CHECK IF IT'S AN INT OTHERWISE THE SCRIPT CRASHES
                 if not all(map(lambda g: is_valid_generation(int(g)), generations)):
                     raise ValueError("Invalid generation.")
 
-                generation = int(choice(generations))
+                gen = int(choice(generations))
     
-                if not is_valid_generation(generation):
-                    raise ValueError("Invalid generation.")
+                pokemon = get_random_pokemon_from_gen(gen)
 
-                pokemon = linecache.getline(home + "/.pokemon-icat/nameslist.txt", evaluate_index_from_generation(generation))[:-1]
-
-                gen_roman = roman_numerals(generation)
+                gen_roman = roman_numerals(gen)
             else:
                 raise ValueError("Missing generation.")
 

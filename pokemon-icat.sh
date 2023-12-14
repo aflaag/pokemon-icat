@@ -10,7 +10,7 @@ pokemon=${split[0]}
 
 echo " "
 
-### CHANGE THIS LINE IF YOU NEED TO USE THIS SCRIPT ON ANOTHER TERMINAL
+# CHANGE THIS LINE IF YOU NEED TO USE THIS SCRIPT ON ANOTHER TERMINAL
 kitten icat --align left --silent $HOME/.pokemon-icat/pokemon-icons/$pokemon.png
 
 echo " "

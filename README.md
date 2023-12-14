@@ -50,3 +50,13 @@ If you want to show a pokemon in particular, just use the `--pokemon [pokemon]` 
 ```sh
 $HOME/.pokemon-icat/pokemon-icat.sh -p charizard
 ```
+
+## TODO list
+
+- fix the generation numbers in the second conversion dictionary
+- do the even upscaling factor thing
+- finish to fill in the remaining pokemons in the conversion dictionaries
+- check if the new pokemon.py version works as intended
+- change the screenshot
+- add shiny sprites
+

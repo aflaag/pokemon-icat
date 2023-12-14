@@ -48,7 +48,7 @@ counter = 0
 pkm_qtd = 0
 curr_pokemon = 0
 
-upscale = 9
+upscale = 3
 
 # this thing is complete garbage
 def remove_horizontal_margins(rgba):
@@ -167,7 +167,10 @@ def image_number(p):
     return int(filtered_p.split()[0])
 
 def filter_pokemon(png_name):
-    return png_name.endswith(".png") and "-mega" not in png_name and png_name not in RANGE_3D
+    return png_name.endswith(".png") \
+        and "-mega" not in png_name \
+        and "-primal" not in png_name \
+        and png_name not in RANGE_3D
 
 def dump_names():
     response = requests.get(URL_TREE, headers=HEADERS)

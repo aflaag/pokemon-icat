@@ -6,7 +6,7 @@ This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemo
 
 ## Requirements
 
-**Important**: this script currently works only on Kitty, but in [pokemon-icat.sh](pokemon-icat.sh) you can change this behaviour by editing the last line, which shows the picture in the terminal.
+**Important**: this script currently works only on Kitty, but in [pokemon-icat.sh](pokemon-icat.sh) you can change this by editing the last line, which shows the picture in the terminal.
 
 To use the script, you must first have all the these installed:
 
@@ -25,7 +25,7 @@ git clone https://github.com/ph04/pokemon-icat && cd pokemon-icat && sh ./instal
 
 which should start the installation process of the script, by downloading every picture of every Pokémon.
 
-By default, this will download every Pokémon with an upscaling factor of the original image of `9`, but if you want to change this, run the last command with the option `--upscale [upscaling factor]`, for example:
+By default, this will download every Pokémon with an upscaling factor of the original image of `3`, but if you want to change this behaviour run the last command with the option `--upscale [upscaling factor]`, for example:
 
 ```sh
 ./install.sh -u 15
@@ -51,12 +51,17 @@ If you want to show a pokemon in particular, just use the `--pokemon [pokemon]` 
 $HOME/.pokemon-icat/pokemon-icat.sh -p charizard
 ```
 
+## Known issues
+
+- Image `10186.png` won't be downloaded
+
 ## TODO list
 
-- fix the generation numbers in the second conversion dictionary
-- do the even upscaling factor thing
-- finish to fill in the remaining pokemons in the conversion dictionaries
-- check if the new pokemon.py version works as intended
-- change the screenshot
-- add shiny sprites
+- conversion
+    - fix the generation numbers in the second conversion dictionary
+    - finish to fill in the remaining pokemons in the conversion dictionaries
+- others
+    - change the screenshot
+- maybe
+    - add shiny sprites
 

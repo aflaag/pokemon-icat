@@ -60,8 +60,6 @@ $HOME/.pokemon-icat/pokemon-icat.sh -p charizard
 - conversion
     - fix the generation numbers in the second conversion dictionary
     - finish to fill in the remaining pokemons in the conversion dictionaries
-- others
-    - change the screenshot
 - maybe
     - add shiny sprites
 

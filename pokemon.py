@@ -1,5 +1,4 @@
 from os.path import expanduser
-import linecache
 import sys
 
 from random import randint, choice

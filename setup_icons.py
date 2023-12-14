@@ -8,13 +8,42 @@ import sys
 import asyncio
 from aiohttp import ClientSession
 
+# urls
+HEADERS = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
+URL_TREE = "https://api.github.com/repos/PokeAPI/sprites/git/trees/c87f4ced89853ad94e3a474306c07d329a28d59c"
+# URL_POINT = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{}"
+URL_POINT = "https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen8/regular/{}.png"
+
+# dirs
+NAME_LIST = expanduser("~") + "/.pokemon-icat/nameslist.txt"
+# SAVE_POINT = expanduser("~") + "/.pokemon-icat/pokemon-icons/{}"
+SAVE_POINT = expanduser("~") + "/.pokemon-icat/pokemon-icons/{}.png"
+
+# 3D sprites to be ignored (yes, i found them manually)
+RANGE_3D = [
+    "10094.png",
+    "10095.png",
+    "10096.png",
+    "10097.png",
+    "10098.png",
+    "10099.png",
+    "100117.png",
+    "100121.png",
+    "100122.png",
+    "100144.png",
+    "100145.png",
+    "100148.png",
+    "100149.png",
+    "100150.png",
+    "100151.png",
+]
+ignored = []
+
 counter = 0
 pkm_qtd = 0
-NAME_LIST = expanduser("~") + "/.pokemon-icat/nameslist.txt"
-SAVE_POINT = expanduser("~") + "/.pokemon-icat/pokemon-icons/{}.png"
-URL_POINT = "https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen8/regular/{}.png"
 upscale = 9
 
+# this thing is complete garbage
 def remove_horizontal_margins(rgba):
     y = 0
 
@@ -70,9 +99,8 @@ async def gather_pokemons(pokemons):
             batch = pokemons[:10]
             del pokemons[:10]
 
-            # remove the '\n' at the end and create task
-            tasks = [asyncio.create_task(get_pokemon(pkm[:-1], session))
-                    for pkm in batch]
+            # create a task for each image
+            tasks = [asyncio.create_task(get_pokemon(pkm[:-1], session)) for pkm in batch]
 
             # gather the entire batch and sleep a bit
             await asyncio.gather(*tasks)
@@ -83,24 +111,61 @@ async def get_pokemon(pokemon, session):
 
     url = URL_POINT.format(pokemon)
 
+    success = True
+
     async with session.get(url) as response:
-        # load the image in PNG indexed format
-        png_idx_img = Image.open(BytesIO(await response.read()))
+        try:
+            # load the image in PNG indexed format
+            png_idx_img = Image.open(BytesIO(await response.read()))
+        except:
+            # ignore images that can't be loaded
+            # (currently, only 10186.png does not work, due to unknown reasons)
+            print(f"ERROR: An error occurred while trying to dump '{pokemon}'; it will be ignored.")
 
-    # return the new image from the new RGBA array
-    new_rgba_img = build_new_image(png_idx_img)
+            success = False
 
-    # upscale the RGBA image with the upscaling factor
-    img = new_rgba_img.resize((new_rgba_img.width * upscale, new_rgba_img.height
-* upscale), Image.BOX)
+            ignored.append(pokemon)
 
-    # save the processed RGBA image
-    img.save(SAVE_POINT.format(pokemon))
+    if success:
+        # return the new image from the new RGBA array
+        new_rgba_img = build_new_image(png_idx_img)
 
-    # update counter and log progress
-    counter += 1
-    print(f"[{counter}/{pkm_qtd}] {pokemon} saved!")
-    
+        # upscale the RGBA image with the upscaling factor
+        img = new_rgba_img.resize((new_rgba_img.width * upscale, new_rgba_img.height * upscale), Image.BOX)
+
+        # save the processed RGBA image
+        img.save(SAVE_POINT.format(pokemon))
+
+        # update counter and log progress
+        counter += 1
+        print(f"[{counter}/{pkm_qtd}] '{pokemon}' saved!")
+
+def criteria(p):
+    try:
+        # remove weird characters from the name
+        filtered_p = "".join(map(lambda c: c if c in "0123456789" else ' ', p))
+
+        # image number
+        n = filtered_p.split()[0]
+
+        return (int(n), len(p), p)
+    except:
+        # there are images without any number in their name
+        return (-1, len(p), p)
+
+def filter_pokemon(png_name):
+    return png_name.endswith(".png") and "-mega" not in png_name and png_name not in RANGE_3D
+
+def dump_names():
+    response = requests.get(URL_TREE, headers=HEADERS)
+
+    pokemon_folder = response.json()["tree"]
+
+    pokemons = list(filter(filter_pokemon, map(lambda pokemon_obj: pokemon_obj["path"], pokemon_folder)))
+
+    pokemons.sort(key=criteria)
+
+    return pokemons
 
 def main():
     if len(sys.argv) > 1:
@@ -115,9 +180,13 @@ def main():
 
     with open(NAME_LIST) as file:
         pokemons = file.readlines()
+    
+    # pokemons = dump_names()
 
     asyncio.run(gather_pokemons(pokemons))
 
+    if len(ignored) != 0:
+        print("These images were ignored: '" + "', '".join(ignored) + "'.")
 
 if __name__ == "__main__":
     main()

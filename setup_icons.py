@@ -13,137 +13,116 @@ import asyncio
 
 from converter import FILENAME_TO_NAME
 
+# consts
+BATCH_SIZE = 50
+
 # urls
 HEADERS = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
 URL_TREE = "https://api.github.com/repos/PokeAPI/sprites/git/trees/c87f4ced89853ad94e3a474306c07d329a28d59c"
 URL_POINT = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{}.png"
-# URL_POINT = "https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-gen8/regular/{}.png"
 
 # dirs
 NAME_LIST = expanduser("~") + "/.pokemon-icat/nameslist.txt"
 SAVE_POINT = expanduser("~") + "/.pokemon-icat/pokemon-icons/{}.png"
 
 # 3D sprites to be ignored (yes, i found them manually)
-RANGE_3D = [
+RANGE_3D = {
+    "10093.png",
     "10094.png",
     "10095.png",
     "10096.png",
     "10097.png",
     "10098.png",
     "10099.png",
-    "100117.png",
-    "100121.png",
-    "100122.png",
-    "100144.png",
-    "100145.png",
-    "100148.png",
-    "100149.png",
-    "100150.png",
-    "100151.png",
+    "10121.png",
+    "10122.png",
+    "10130.png",
+    "10131.png",
+    "10132.png",
+    "10133.png",
+    "10134.png",
+    "10135.png",
+    "10144.png",
+    "10145.png",
+    "10148.png",
+    "10149.png",
+    "10150.png",
+    "10151.png",
     "414-plant.png",
-    "664-icy-snow.png"
-    "665-icy-snow.png"
-/home/aless/.pokemon-icat/pokemon-icons/666-archipelago.png
-/home/aless/.pokemon-icat/pokemon-icons/666-continental.png
-/home/aless/.pokemon-icat/pokemon-icons/666-elegant.png
-/home/aless/.pokemon-icat/pokemon-icons/666-fancy.png
-/home/aless/.pokemon-icat/pokemon-icons/666-garden.png
-/home/aless/.pokemon-icat/pokemon-icons/666-high-plains.png
-/home/aless/.pokemon-icat/pokemon-icons/666-icy-snow.png
-/home/aless/.pokemon-icat/pokemon-icons/666-jungle.png
-/home/aless/.pokemon-icat/pokemon-icons/666-marine.png
-/home/aless/.pokemon-icat/pokemon-icons/666-meadow.png
-/home/aless/.pokemon-icat/pokemon-icons/666-modern.png
-/home/aless/.pokemon-icat/pokemon-icons/666-monsoon.png
-/home/aless/.pokemon-icat/pokemon-icons/666-ocean.png
-/home/aless/.pokemon-icat/pokemon-icons/666-poke-ball.png
-/home/aless/.pokemon-icat/pokemon-icons/666-polar.png
-/home/aless/.pokemon-icat/pokemon-icons/666-river.png
-/home/aless/.pokemon-icat/pokemon-icons/666-sandstorm.png
-/home/aless/.pokemon-icat/pokemon-icons/666-savanna.png
-/home/aless/.pokemon-icat/pokemon-icons/666-sun.png
-/home/aless/.pokemon-icat/pokemon-icons/666-tundra.png
-
-/home/aless/.pokemon-icat/pokemon-icons/669-blue.png
-/home/aless/.pokemon-icat/pokemon-icons/669-orange.png
-
-/home/aless/.pokemon-icat/pokemon-icons/669-white.png
-/home/aless/.pokemon-icat/pokemon-icons/669-yellow.png
-/home/aless/.pokemon-icat/pokemon-icons/670-blue.png
-
-/home/aless/.pokemon-icat/pokemon-icons/670-orange.png
-
-/home/aless/.pokemon-icat/pokemon-icons/670-white.png
-/home/aless/.pokemon-icat/pokemon-icons/670-yellow.png
-/home/aless/.pokemon-icat/pokemon-icons/671-blue.png
-/home/aless/.pokemon-icat/pokemon-icons/671-orange.png
-
-/home/aless/.pokemon-icat/pokemon-icons/671-white.png
-/home/aless/.pokemon-icat/pokemon-icons/671-yellow.png
-/home/aless/.pokemon-icat/pokemon-icons/676-dandy.png
-/home/aless/.pokemon-icat/pokemon-icons/676-debutante.png
-/home/aless/.pokemon-icat/pokemon-icons/676-diamond.png
-/home/aless/.pokemon-icat/pokemon-icons/676-heart.png
-/home/aless/.pokemon-icat/pokemon-icons/676-kabuki.png
-/home/aless/.pokemon-icat/pokemon-icons/676-la-reine.png
-/home/aless/.pokemon-icat/pokemon-icons/676-matron.png
-
-/home/aless/.pokemon-icat/pokemon-icons/676-pharaoh.png
-/home/aless/.pokemon-icat/pokemon-icons/676-star.png
-
-/home/aless/.pokemon-icat/pokemon-icons/710-large.png
-/home/aless/.pokemon-icat/pokemon-icons/710-small.png
-/home/aless/.pokemon-icat/pokemon-icons/710-super.png
-
-/home/aless/.pokemon-icat/pokemon-icons/716-neutral.png
-/home/aless/.pokemon-icat/pokemon-icons/720-unbound.png
-/home/aless/.pokemon-icat/pokemon-icons/741-baile.png
-/home/aless/.pokemon-icat/pokemon-icons/745-midday.png
-/home/aless/.pokemon-icat/pokemon-icons/746-solo.png
-/home/aless/.pokemon-icat/pokemon-icons/773-bug.png
-/home/aless/.pokemon-icat/pokemon-icons/773-dark.png
-/home/aless/.pokemon-icat/pokemon-icons/773-dragon.png
-/home/aless/.pokemon-icat/pokemon-icons/773-electric.png
-/home/aless/.pokemon-icat/pokemon-icons/773-fairy.png
-/home/aless/.pokemon-icat/pokemon-icons/773-fighting.png
-/home/aless/.pokemon-icat/pokemon-icons/773-fire.png
-/home/aless/.pokemon-icat/pokemon-icons/773-flying.png
-/home/aless/.pokemon-icat/pokemon-icons/773-ghost.png
-/home/aless/.pokemon-icat/pokemon-icons/773-grass.png
-/home/aless/.pokemon-icat/pokemon-icons/773-ground.png
-/home/aless/.pokemon-icat/pokemon-icons/773-ice.png
-/home/aless/.pokemon-icat/pokemon-icons/773-normal.png
-/home/aless/.pokemon-icat/pokemon-icons/773-poison.png
-/home/aless/.pokemon-icat/pokemon-icons/773-psychic.png
-/home/aless/.pokemon-icat/pokemon-icons/773-rock.png
-/home/aless/.pokemon-icat/pokemon-icons/773-steel.png
-/home/aless/.pokemon-icat/pokemon-icons/773-water.png
-/home/aless/.pokemon-icat/pokemon-icons/774-red-meteor.png
-/home/aless/.pokemon-icat/pokemon-icons/775-form-1.png
-/home/aless/.pokemon-icat/pokemon-icons/778-disguised.png
-/home/aless/.pokemon-icat/pokemon-icons/784-totem.png
-
-10093
-10117
-
-/home/aless/.pokemon-icat/pokemon-icons/10121.png
-/home/aless/.pokemon-icat/pokemon-icons/10122.png
-
-/home/aless/.pokemon-icat/pokemon-icons/10130.png
-/home/aless/.pokemon-icat/pokemon-icons/10131.png
-/home/aless/.pokemon-icat/pokemon-icons/10132.png
-/home/aless/.pokemon-icat/pokemon-icons/10133.png
-/home/aless/.pokemon-icat/pokemon-icons/10134.png
-/home/aless/.pokemon-icat/pokemon-icons/10135.png
-
-10144
-10145
-
-/home/aless/.pokemon-icat/pokemon-icons/10148.png
-/home/aless/.pokemon-icat/pokemon-icons/10149.png
-/home/aless/.pokemon-icat/pokemon-icons/10150.png
-/home/aless/.pokemon-icat/pokemon-icons/10151.png
-]
+    "664-icy-snow.png",
+    "665-icy-snow.png",
+    "666-archipelago.png",
+    "666-continental.png",
+    "666-elegant.png",
+    "666-fancy.png",
+    "666-garden.png",
+    "666-high-plains.png",
+    "666-icy-snow.png",
+    "666-jungle.png",
+    "666-marine.png",
+    "666-meadow.png",
+    "666-modern.png",
+    "666-monsoon.png",
+    "666-ocean.png",
+    "666-poke-ball.png",
+    "666-polar.png",
+    "666-river.png",
+    "666-sandstorm.png",
+    "666-savanna.png",
+    "666-sun.png",
+    "666-tundra.png",
+    "669-blue.png",
+    "669-orange.png",
+    "669-white.png",
+    "669-yellow.png",
+    "670-blue.png",
+    "670-orange.png",
+    "670-white.png",
+    "670-yellow.png",
+    "671-blue.png",
+    "671-orange.png",
+    "671-white.png",
+    "671-yellow.png",
+    "676-dandy.png",
+    "676-debutante.png",
+    "676-diamond.png",
+    "676-heart.png",
+    "676-kabuki.png",
+    "676-la-reine.png",
+    "676-matron.png",
+    "676-pharaoh.png",
+    "676-star.png",
+    "710-large.png",
+    "710-small.png",
+    "710-super.png",
+    "716-neutral.png",
+    "720-unbound.png",
+    "741-baile.png",
+    "745-midday.png",
+    "746-solo.png",
+    "773-bug.png",
+    "773-dark.png",
+    "773-dragon.png",
+    "773-electric.png",
+    "773-fairy.png",
+    "773-fighting.png",
+    "773-fire.png",
+    "773-flying.png",
+    "773-ghost.png",
+    "773-grass.png",
+    "773-ground.png",
+    "773-ice.png",
+    "773-normal.png",
+    "773-poison.png",
+    "773-psychic.png",
+    "773-rock.png",
+    "773-steel.png",
+    "773-water.png",
+    "774-red-meteor.png",
+    "775-form-1.png",
+    "778-disguised.png",
+    "784-totem.png",
+}
 
 ignored = []
 
@@ -207,8 +186,8 @@ async def gather_pokemons(pokemons):
 
     async with ClientSession() as session:
         while pokemons:
-            batch = pokemons[:10]
-            del pokemons[:10]
+            batch = pokemons[:BATCH_SIZE]
+            del pokemons[:BATCH_SIZE]
 
             # create a task for each image
             tasks = [asyncio.create_task(get_pokemon(pokemon, session)) for pokemon in batch]

@@ -57,10 +57,5 @@ $HOME/.pokemon-icat/pokemon-icat.sh -p charizard
 
 ## TODO list
 
-- da finire
-- considera di salvarli tu su una tua repo a parte a sto punto
-- conversion
-    - finish to fill in the remaining pokemons in the conversion dictionaries
-- maybe
-    - add shiny sprites
+- rename the other images to include every available sprite
 

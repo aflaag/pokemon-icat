@@ -65,15 +65,17 @@ def main():
             generations = sys.argv[2:]
     
             if generations:
-                # TODO: CHECK IF IT'S AN INT OTHERWISE THE SCRIPT CRASHES
-                if not all(map(lambda g: is_valid_generation(int(g)), generations)):
+                try:
+                    if not all(map(lambda g: is_valid_generation(int(g)), generations)):
+                        raise ValueError("Invalid generation.")
+
+                    gen = int(choice(generations))
+        
+                    pokemon = get_random_pokemon_from_gen(gen)
+
+                    gen_roman = roman_numerals(gen)
+                except ValueError:
                     raise ValueError("Invalid generation.")
-
-                gen = int(choice(generations))
-    
-                pokemon = get_random_pokemon_from_gen(gen)
-
-                gen_roman = roman_numerals(gen)
             else:
                 raise ValueError("Missing generation.")
 

@@ -45,6 +45,12 @@ If you want to specify one or more generations in particular, simply add `--gen 
 $HOME/.pokemon-icat/pokemon-icat.sh -g 3 4 5
 ```
 
+and for Hisuian Pokémons put `Hisui` as the generation argument, like this:
+
+```sh
+$HOME/.pokemon-icat/pokemon-icat.sh -g Hisui 8 9
+```
+
 If you want to show a pokemon in particular, just use the `--pokemon [pokemon]` flag, for example:
 
 ```sh

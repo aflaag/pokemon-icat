@@ -57,8 +57,9 @@ $HOME/.pokemon-icat/pokemon-icat.sh -p charizard
 
 ## TODO list
 
+- da finire
+- considera di salvarli tu su una tua repo a parte a sto punto
 - conversion
-    - fix the generation numbers in the second conversion dictionary
     - finish to fill in the remaining pokemons in the conversion dictionaries
 - maybe
     - add shiny sprites

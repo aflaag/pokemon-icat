@@ -5,8 +5,10 @@ from random import randint, choice
 
 from converter import FILENAME_TO_NAME, NAME_TO_GENERATION
 
+MAX_GEN = 9
+
 def is_valid_generation(generation):
-    return 1 <= generation <= 8
+    return 1 <= generation <= MAX_GEN
 
 def roman_numerals(generation):
     roman = {
@@ -18,6 +20,7 @@ def roman_numerals(generation):
         6: "VI",
         7: "VII",
         8: "VIII",
+        9: "IX",
     }
 
     return roman[generation]
@@ -32,6 +35,7 @@ def get_random_pokemon_from_gen(generation):
         6: (650, 721),
         7: (722, 809),
         8: (810, 898),
+        9: (899, 1025),
     }
     
     start, stop = ranges[generation]
@@ -42,7 +46,7 @@ def get_random_pokemon_from_gen(generation):
 
 def main():
     # by default, a random pokemon from a random generation is picked
-    generation = randint(1, 8)
+    generation = randint(1, MAX_GEN)
     gen_roman = roman_numerals(generation)
 
     pokemon = get_random_pokemon_from_gen(generation)

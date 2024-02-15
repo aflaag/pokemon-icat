@@ -6,7 +6,7 @@ This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemo
 
 ## Requirements
 
-**Important**: this script currently works only on Kitty, but in [pokemon-icat.sh](pokemon-icat.sh) you can change this by editing the last line, which shows the picture in the terminal.
+**Important**: this script currently works only on Kitty, but you can change this by editing the last line inside [pokemon-icat.sh](pokemon-icat.sh#L14), which shows the picture in the terminal.
 
 To use the script, you must first have all the these installed:
 

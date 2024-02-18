@@ -20,7 +20,7 @@ To use the script, you must first have all the these installed:
 After making sure that you have all of the requirements, run this command:
 
 ```sh
-git clone https://github.com/ph04/pokemon-icat && cd pokemon-icat && sh ./install.sh
+git clone https://github.com/aflaag/pokemon-icat && cd pokemon-icat && sh ./install.sh
 ```
 
 which should start the installation process of the script, by downloading every picture of every Pokémon.

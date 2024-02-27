@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 output=$(python3 $HOME/.pokemon-icat/pokemon.py ${@:1})
 

@@ -63,6 +63,15 @@ $HOME/.pokemon-icat/pokemon-icat.sh -p charizard
 
 ## TODO list
 
+- rust rewrite
+    - fix clap
+    - make --show-info usable with the sh script
+    - test extensively
+    - change pokemon-icat.sh
+    - change README.md
+
+## would-like-to-do list
+
 - rename the other images to include every available sprite
 - shinies every once in a while
 

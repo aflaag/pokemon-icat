@@ -8,7 +8,7 @@ pub struct ProgramArgs {
     #[clap(short, long, value_parser)]
     pub pokemon: Option<String>,
 
-    #[clap(short, long, value_parser)]
+    #[clap(long, value_parser)]
     pub show_info: bool,
 
     #[clap(short, long, value_parser, num_args = 1.., value_delimiter = ',')]

@@ -1,27 +1,35 @@
-use pokemon_icat::args::ProgramArgs;
-
 use clap::Parser;
 use csv::Reader;
 use rand::{prelude::IteratorRandom, Rng};
 use std::fs::File;
 
 const MAX_GEN: usize = 10;
-const GENERATIONS: [&str; MAX_GEN] = ["1", "2", "3", "4", "5", "6", "7", "8", "Hisui", "9"];
-const ROMAN_NUMERALS: [&str; MAX_GEN] = [
-    "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "Hisui", "IX",
+const GENERATIONS: [(&str, &str); MAX_GEN] = [
+    ("1", "I"),
+    ("2", "II"),
+    ("3", "III"),
+    ("4", "IV"),
+    ("5", "V"),
+    ("6", "VI"),
+    ("7", "VII"),
+    ("8", "VIII"),
+    ("Hisui", "Hisui"),
+    ("9", "IX"),
 ];
-const GEN_RANGES: [(usize, usize); MAX_GEN] = [
-    (1, 151),
-    (152, 251),
-    (252, 386),
-    (387, 493),
-    (494, 649),
-    (650, 721),
-    (722, 809),
-    (810, 898),
-    (899, 905),
-    (906, 1025),
-];
+
+/// TODO: DO ME
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
+pub struct ProgramArgs {
+    #[clap(short, long, value_parser)]
+    pub pokemon: Option<String>,
+
+    #[clap(long, value_parser)]
+    pub show_info: bool,
+
+    #[clap(short, long, value_parser, num_args = 1.., value_delimiter = ',')]
+    pub generations: Option<Vec<String>>,
+}
 
 #[derive(Debug, Clone, serde::Deserialize)]
 struct Pokemon {
@@ -41,17 +49,36 @@ fn get_pokemon_gen<'a>(pokemon_name: &'a str, pokemons: &'a [Pokemon]) -> &'a st
 fn get_random_pokemon<R: Rng + ?Sized + Clone>(
     rng: &mut R,
     pokemons: &[Pokemon],
-    gens: Option<Vec<String>>,
-) -> Option<String> {
+    gens: &Option<Vec<String>>,
+) -> Option<Pokemon> {
     pokemons
         .iter()
-        .filter(|p| if let Some(gs) = &gens { gs.contains(&p.generation) } else { true })
+        .filter(|p| {
+            if let Some(gs) = &gens {
+                gs.contains(&p.generation)
+            } else {
+                true
+            }
+        })
         .choose(rng)
-        .map(|p| p.name.clone())
+        .cloned()
+}
+
+fn gen_to_roman(gen: &str) -> &str {
+    GENERATIONS.iter().find(|(g, _)| *g == gen).unwrap().1
 }
 
 fn main() {
     let args = ProgramArgs::parse();
+
+    if let Some(gens) = &args.generations {
+        if gens
+            .iter()
+            .any(|gen_arg| !GENERATIONS.iter().any(|(gen, _)| gen_arg == gen))
+        {
+            panic!("invalid region.");
+        }
+    }
 
     let pokemon_data = File::open("pokemon_data.csv").expect("missing `pokemon_data.csv` file.");
 
@@ -60,36 +87,23 @@ fn main() {
         .map(|p| p.expect("`pokemon_data.csv` is corrupted"))
         .collect();
 
-    let mut pokemon_name = args.pokemon;
-    let roman_gen;
-
-    // TODO: make the two options conflict within clap
-    match (&pokemon_name, &args.generations) {
-        (Some(n), None) => {
-            let gen = get_pokemon_gen(n.as_str(), &pokemons);
-
-            roman_gen = ROMAN_NUMERALS[GENERATIONS
-                .iter()
-                .enumerate()
-                .find(|(_, g)| **g == gen)
-                .unwrap()
-                .0];
+    // TODO: use conflicts_with in clap to avoid checking for (Some, Some)
+    let pokemon = if let (Some(n), None) = (&args.pokemon, &args.generations) {
+        Pokemon {
+            name: n.clone(),
+            generation: get_pokemon_gen(n.as_str(), &pokemons).to_string(),
         }
-        (_, _) => {
-            let mut rng = rand::thread_rng();
+    } else {
+        let mut rng = rand::thread_rng();
 
-            roman_gen = ROMAN_NUMERALS[(0..MAX_GEN).choose(&mut rng).unwrap()];
-
-            pokemon_name = get_random_pokemon(
-                &mut rng,
-                &pokemons,
-                args.generations
-            );
-            // println!("{}", pokemon_name.clone().unwrap());
-        }
-    }
+        get_random_pokemon(&mut rng, &pokemons, &args.generations).unwrap()
+    };
 
     if args.show_info {
-        println!("{} - {}", pokemon_name.unwrap(), roman_gen);
+        println!(
+            "{} - {}",
+            pokemon.name,
+            gen_to_roman(pokemon.generation.as_str())
+        );
     }
 }

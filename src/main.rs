@@ -29,18 +29,6 @@ struct Pokemon {
     generation: String,
 }
 
-fn get_random_pokemon<R: Rng + ?Sized + Clone>(
-    rng: &mut R,
-    gen: &str,
-    pokemons: &[Pokemon],
-) -> Option<String> {
-    pokemons
-        .iter()
-        .filter(|p| p.generation == gen)
-        .choose(rng)
-        .map(|p| p.name.clone())
-}
-
 fn get_pokemon_gen<'a>(pokemon_name: &'a str, pokemons: &'a [Pokemon]) -> &'a str {
     pokemons
         .iter()
@@ -48,6 +36,18 @@ fn get_pokemon_gen<'a>(pokemon_name: &'a str, pokemons: &'a [Pokemon]) -> &'a st
         .expect("the given pokemon does not exist")
         .generation
         .as_str()
+}
+
+fn get_random_pokemon<R: Rng + ?Sized + Clone>(
+    rng: &mut R,
+    pokemons: &[Pokemon],
+    gens: Option<Vec<String>>,
+) -> Option<String> {
+    pokemons
+        .iter()
+        .filter(|p| if let Some(gs) = &gens { gs.contains(&p.generation) } else { true })
+        .choose(rng)
+        .map(|p| p.name.clone())
 }
 
 fn main() {
@@ -64,7 +64,7 @@ fn main() {
     let roman_gen;
 
     // TODO: make the two options conflict within clap
-    match (&pokemon_name, args.generations) {
+    match (&pokemon_name, &args.generations) {
         (Some(n), None) => {
             let gen = get_pokemon_gen(n.as_str(), &pokemons);
 
@@ -75,17 +75,17 @@ fn main() {
                 .unwrap()
                 .0];
         }
-        (None, Some(gens)) => {
-            todo!()
-        }
         (_, _) => {
             let mut rng = rand::thread_rng();
 
-            let gen_idx = (0..=MAX_GEN).choose(&mut rng).unwrap();
+            roman_gen = ROMAN_NUMERALS[(0..MAX_GEN).choose(&mut rng).unwrap()];
 
-            roman_gen = ROMAN_NUMERALS[gen_idx];
-
-            pokemon_name = get_random_pokemon(&mut rng, GENERATIONS[gen_idx], &pokemons);
+            pokemon_name = get_random_pokemon(
+                &mut rng,
+                &pokemons,
+                args.generations
+            );
+            // println!("{}", pokemon_name.clone().unwrap());
         }
     }
 

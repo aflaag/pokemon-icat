@@ -61,11 +61,6 @@ $HOME/.pokemon-icat/pokemon-icat.sh -s -p charizard
 
 - Image `10186.png` won't be downloaded
 
-## TODO list
-
-- rust rewrite
-    - test extensively
-
 ## would-like-to-do list
 
 - add type emojis

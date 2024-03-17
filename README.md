@@ -39,25 +39,19 @@ To show a random pokemon, simply run:
 $HOME/.pokemon-icat/pokemon-icat.sh
 ```
 
-note that, by default, no info about the Pokémon will be shown in the output; to show the name and the generation number of the choosen Pokémon add the `--show` flag when calling `pokemon-icat.sh` (**important**: note that this flag must be used _before_ any other flag regarding the output)
+note that, by default, no info about the Pokémon will be shown in the output; to show the name and the generation number of the choosen Pokémon add the `--show` flag when calling `pokemon-icat.sh` (**note**: this flag must be used _before_ any other flag regarding the output)
 
 ```sh
 $HOME/.pokemon-icat/pokemon-icat.sh -s
 ```
 
-If you want to specify one or more generations in particular, simply add `--gen [numbers]` at the end, for example:
+If you want to specify one or more generations in particular, simply add `--generations <GENERATIONS>` at the end, for example (**note**: the generations must be comma-separated, and trailing commas are not supported):
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat.sh -s -g 3 4 5
+$HOME/.pokemon-icat/pokemon-icat.sh -s -g 3,4,Hisui,5
 ```
 
-and for Hisuian Pokémons put `Hisui` as the generation argument, like this:
-
-```sh
-$HOME/.pokemon-icat/pokemon-icat.sh -s -g Hisui 8 9
-```
-
-If you want to show a pokemon in particular, just use the `--pokemon [pokemon]` flag, for example:
+If you want to show a pokemon in particular, just use the `--pokemon <POKEMON>` flag, for example:
 
 ```sh
 $HOME/.pokemon-icat/pokemon-icat.sh -s -p charizard

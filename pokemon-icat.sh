@@ -1,16 +1,24 @@
 #!/usr/bin/env bash
 
-output=$(python3 $HOME/.pokemon-icat/pokemon.py ${@:1})
+PICAT_PATH="./pokemon-icat"
 
-echo $output
+get_pokemon() {
+    IFS=' ' read -r -a split <<< "$OUTPUT"
 
-IFS=' ' read -r -a split <<< "$output"
+    POKEMON=${split[0]}
+}
 
-pokemon=${split[0]}
+if [ "$1" = "--show" ] || [ "$1" = "-s" ]
+then
+    OUTPUT=$($PICAT_PATH ${@:2})
+    echo $OUTPUT
+else
+    OUTPUT=$($PICAT_PATH ${@:1})
+fi
+
+get_pokemon $OUTPUT
 
 echo " "
 
 # CHANGE THIS LINE IF YOU NEED TO USE THIS SCRIPT ON ANOTHER TERMINAL
-kitten icat --align left --silent $HOME/.pokemon-icat/pokemon-icons/$pokemon.png
-
-echo " "
+kitten icat --align left --silent $HOME/.pokemon-icat/pokemon-icons/$POKEMON.png

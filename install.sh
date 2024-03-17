@@ -1,11 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+ROOT="$HOME/.pokemon-icat"
 
 chmod +x pokemon-icat.sh
 
-mkdir -p $HOME/.pokemon-icat
-mkdir -p $HOME/.pokemon-icat/pokemon-icons
+mkdir -p $ROOT
+mkdir -p "$ROOT/pokemon-icons"
 
-cp ./*.py $HOME/.pokemon-icat
-cp pokemon-icat.sh $HOME/.pokemon-icat
+cp ./*.py $ROOT
+cp pokemon-icat $ROOT
+cp pokemon-icat.sh $ROOT
 
-python3 $HOME/.pokemon-icat/setup_icons.py $1 $2
+python3 "$ROOT/setup_icons.py" $1 $2

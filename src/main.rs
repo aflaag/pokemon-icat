@@ -17,17 +17,18 @@ const GENERATIONS: [(&str, &str); MAX_GEN] = [
     ("9", "IX"),
 ];
 
-/// TODO: DO ME
+/// Show Pokémons inside your terminal!
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 pub struct ProgramArgs {
+    /// pick a pokemon to show
     #[clap(short, long, value_parser)]
     pub pokemon: Option<String>,
 
-    #[clap(long, value_parser)]
-    pub show_info: bool,
-
+    /// randomly choose a pokemon from the given generations;
+    /// currently supported generations are: [1, 2, 3, 4, 5, 6, 7, 8, Hisui, 9]
     #[clap(short, long, value_parser, num_args = 1.., value_delimiter = ',')]
+    #[arg(conflicts_with = "pokemon")]
     pub generations: Option<Vec<String>>,
 }
 
@@ -87,7 +88,6 @@ fn main() {
         .map(|p| p.expect("`pokemon_data.csv` is corrupted"))
         .collect();
 
-    // TODO: use conflicts_with in clap to avoid checking for (Some, Some)
     let pokemon = if let (Some(n), None) = (&args.pokemon, &args.generations) {
         Pokemon {
             name: n.clone(),
@@ -99,11 +99,9 @@ fn main() {
         get_random_pokemon(&mut rng, &pokemons, &args.generations).unwrap()
     };
 
-    if args.show_info {
-        println!(
-            "{} - {}",
-            pokemon.name,
-            gen_to_roman(pokemon.generation.as_str())
-        );
-    }
+    println!(
+        "{} - {}",
+        pokemon.name,
+        gen_to_roman(pokemon.generation.as_str())
+    );
 }

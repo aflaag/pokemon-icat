@@ -6,7 +6,7 @@ This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemo
 
 ## Requirements
 
-**Important**: this script currently works only on Kitty, but you can change this by editing the last line inside [pokemon-icat.sh](pokemon-icat.sh#L14), which shows the picture in the terminal.
+**Important**: this script currently works only on Kitty, but you can change this by editing the last line inside [pokemon-icat.sh](pokemon-icat.sh#L24), which shows the picture in the terminal.
 
 To use the script, you must first have all the these installed:
 
@@ -39,22 +39,28 @@ To show a random pokemon, simply run:
 $HOME/.pokemon-icat/pokemon-icat.sh
 ```
 
+note that, by default, no info about the Pokémon will be shown in the output; to show the name and the generation number of the choosen Pokémon add the `--show` flag when calling `pokemon-icat.sh` (**important**: note that this flag must be used _before_ any other flag regarding the output)
+
+```sh
+$HOME/.pokemon-icat/pokemon-icat.sh -s
+```
+
 If you want to specify one or more generations in particular, simply add `--gen [numbers]` at the end, for example:
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat.sh -g 3 4 5
+$HOME/.pokemon-icat/pokemon-icat.sh -s -g 3 4 5
 ```
 
 and for Hisuian Pokémons put `Hisui` as the generation argument, like this:
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat.sh -g Hisui 8 9
+$HOME/.pokemon-icat/pokemon-icat.sh -s -g Hisui 8 9
 ```
 
 If you want to show a pokemon in particular, just use the `--pokemon [pokemon]` flag, for example:
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat.sh -p charizard
+$HOME/.pokemon-icat/pokemon-icat.sh -s -p charizard
 ```
 
 ## Known issues
@@ -64,11 +70,7 @@ $HOME/.pokemon-icat/pokemon-icat.sh -p charizard
 ## TODO list
 
 - rust rewrite
-    - fix clap
-    - make --show-info usable with the sh script
     - test extensively
-    - change pokemon-icat.sh
-    - change README.md
 
 ## would-like-to-do list
 

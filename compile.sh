@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 cargo build --release
-cp target/release/pokemon-icat .
+cp target/release/pokemon-icat bin

@@ -3,6 +3,8 @@ use csv::Reader;
 use rand::{prelude::IteratorRandom, Rng};
 use std::fs::File;
 
+// const CSV_PATH: &str = "/home/aless/.pokemon-icat/pokemon_data.csv";
+
 const MAX_GEN: usize = 10;
 const GENERATIONS: [(&str, &str); MAX_GEN] = [
     ("1", "I"),
@@ -70,6 +72,12 @@ fn gen_to_roman(gen: &str) -> &str {
 }
 
 fn main() {
+    let mut home_path = home::home_dir().expect("unable to get home dir");
+
+    if home_path.as_os_str().is_empty() {
+        panic!("unable to get home dir");
+    }
+
     let args = ProgramArgs::parse();
 
     if let Some(gens) = &args.generations {
@@ -81,7 +89,9 @@ fn main() {
         }
     }
 
-    let pokemon_data = File::open("pokemon_data.csv").expect("missing `pokemon_data.csv` file.");
+    home_path.push(".pokemon-icat/pokemon_data.csv");
+
+    let pokemon_data = File::open(home_path).expect("missing `pokemon_data.csv` file");
 
     let pokemons: Vec<Pokemon> = Reader::from_reader(pokemon_data)
         .deserialize()

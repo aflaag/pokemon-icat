@@ -68,6 +68,7 @@ $HOME/.pokemon-icat/pokemon-icat.sh -s -p charizard
 
 ## would-like-to-do list
 
+- add type emojis
 - rename the other images to include every available sprite
 - shinies every once in a while
 

@@ -59,7 +59,8 @@ $HOME/.pokemon-icat/pokemon-icat.sh -s -p charizard
 
 ## Known issues
 
-- Image `10186.png` won't be downloaded
+- Archaludon doesn't get downloaded
+- Image `10186.png` doesn't downloaded (maybe it's Archaludon?)
 
 ## would-like-to-do list
 

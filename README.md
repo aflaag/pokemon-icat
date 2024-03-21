@@ -72,6 +72,7 @@ $HOME/.pokemon-icat/pokemon-icat.sh -s -p charizard
 
 ## would-like-to-do list
 
+- show gen and name with two separate commands maybe?
 - add type emojis
 - rename the other images to include every available sprite
 - shinies every once in a while

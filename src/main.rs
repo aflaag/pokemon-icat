@@ -74,9 +74,7 @@ fn gen_to_roman(gen: &str) -> &str {
 fn main() {
     let mut home_path = home::home_dir().expect("unable to get home dir");
 
-    if home_path.as_os_str().is_empty() {
-        panic!("unable to get home dir");
-    }
+    assert!(!home_path.as_os_str().is_empty(), "unable to get home dir");
 
     let args = ProgramArgs::parse();
 

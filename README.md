@@ -23,6 +23,8 @@ Note that the binary is already present inside `bin/pokemon-icat`, but if you ne
 sh compile.sh
 ```
 
+(note that this script requires `cargo`).
+
 ## Installation
 
 After making sure that you have all of the requirements, run the following command:

@@ -17,7 +17,7 @@ To use the script, you must first have all the these installed:
 
 ## Compilation
 
-Note that the binary is already present inside `bin/pokemon-icat`, but if you need to compile the program, simply run
+Note that the binary is already present inside `bin/pokemon-icat`, but if you need to compile the program, simply run:
 
 ```sh
 sh compile.sh
@@ -25,7 +25,7 @@ sh compile.sh
 
 ## Installation
 
-After making sure that you have all of the requirements, run this command:
+After making sure that you have all of the requirements, run the following command:
 
 ```sh
 git clone https://github.com/aflaag/pokemon-icat && cd pokemon-icat && sh install.sh

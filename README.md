@@ -6,7 +6,7 @@ This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemo
 
 ## Requirements
 
-**Important**: this program relies on [viuer](https://crates.io/crates/viuer), so check if your terminal is supported first.
+**Important**: this program relies on [viuer](https://github.com/atanunq/viuer), so check if your terminal is supported first.
 
 To use the script, you must first have all the these installed:
 

@@ -80,8 +80,6 @@ To check all the available options, use the `--help` option.
 
 - AUR package (very requested)
 - Nix package
-- show gen and name with two separate commands maybe?
-    - this is currently impossibile, but consider using `https://github.com/atanunq/viuer` to make this viable
 - add type emojis
 - rename the other images to include every available sprite
 - shinies every once in a while

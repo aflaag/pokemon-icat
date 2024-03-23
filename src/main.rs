@@ -27,21 +27,21 @@ pub struct ProgramArgs {
     #[clap(short, long, value_parser)]
     pub pokemon: Option<String>,
 
-    /// randomly choose a pokemon from the given generations;
+    /// randomly choose a pokemon from the given generations
     /// currently supported generations are: [1, 2, 3, 4, 5, 6, 7, 8, Hisui, 9]
-    #[clap(short, long, value_parser, num_args = 1.., value_delimiter = ',')]
+    #[clap(short, long, value_parser, num_args = 1.., value_delimiter = ',', verbatim_doc_comment)]
     #[arg(conflicts_with = "pokemon")]
     pub generations: Option<Vec<String>>,
 
-    /// TODO:
+    /// suppress the Pokémon info
     #[clap(short, long, value_parser)]
     pub quiet: bool,
 
-    /// TODO:
+    /// change the Pokémon size
     #[clap(long, default_value = "1.0", value_parser = check_scale)]
     pub scale: f32,
 
-    /// TODO:
+    /// use a fixed height for every Pokémon
     #[clap(long, value_parser = check_height)]
     #[arg(conflicts_with = "scale")]
     pub height: Option<u32>,
@@ -58,9 +58,9 @@ fn check_scale(scale: &str) -> Result<f32, String> {
 }
 
 fn check_height(height: &str) -> Result<u32, String> {
-    if let Ok(s) = height.parse::<u32>() {
-        if s >= 2 {
-            return Ok(s);
+    if let Ok(h) = height.parse::<u32>() {
+        if h >= 2 {
+            return Ok(h);
         }
     }
 
@@ -145,7 +145,7 @@ fn main() {
     home_path.push(format!("pokemon-icons/{}.png", pokemon.name));
 
     let conf = Config {
-        y: if args.quiet { 0 } else { 1 },
+        y: i16::from(!args.quiet),
         #[allow(
             clippy::cast_possible_truncation,
             clippy::cast_sign_loss,

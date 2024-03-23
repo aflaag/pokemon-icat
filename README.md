@@ -67,6 +67,8 @@ and if you want to suppress the Pokémon info, use the `--quiet` flag:
 $HOME/.pokemon-icat/pokemon-icat -p charizard -q
 ```
 
+To check all the available options, use the `--help` option.
+
 ## Known issues
 
 - check pokemon names

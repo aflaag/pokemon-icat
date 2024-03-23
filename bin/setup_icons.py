@@ -211,7 +211,7 @@ async def get_pokemon(pokemon, session):
             png_idx_img = Image.open(BytesIO(await response.read()))
         except:
             # ignore images that can't be loaded
-            # (currently, only 10186.png does not work, due to unknown reasons)
+            # TODO: currently, only 10186.png does not work, due to unknown reasons
             print(f"ERROR: An error occurred while trying to dump '{name}.png'; it will be ignored.")
 
             success = False

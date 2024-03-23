@@ -2,8 +2,6 @@
 
 ROOT=$HOME/.pokemon-icat
 
-chmod +x bin/pokemon-icat.sh
-
 mkdir -p $ROOT
 mkdir -p $ROOT/pokemon-icons
 

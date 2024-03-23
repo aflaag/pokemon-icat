@@ -6,11 +6,11 @@ This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemo
 
 ## Requirements
 
-**Important**: this script currently works only on Kitty, but you can change this by editing [this line](bin/pokemon-icat.sh#L25) inside `bin/pokemon-icat.sh`, which shows the picture in the terminal.
+**Important**: this program relies on [viuer](https://crates.io/crates/viuer), so check if your terminal is supported first.
 
 To use the script, you must first have all the these installed:
 
-- a terminal which supports images (for example `Kitty`, which requires `ImageMagick`)
+- a supported terminal
 - `Python 3.8.x`
 - `numpy` (Python library)
 - `aiohttp` (Python library)
@@ -46,31 +46,32 @@ sh install.sh -u 15
 To show a random pokemon, simply run:
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat.sh
-```
-
-note that, by default, no info about the Pokémon will be shown in the output; to show the name and the generation number of the choosen Pokémon add the `--show` flag when calling `pokemon-icat.sh` (**note**: this flag must be used _before_ any other flag regarding the output)
-
-```sh
-$HOME/.pokemon-icat/pokemon-icat.sh -s
+$HOME/.pokemon-icat/pokemon-icat
 ```
 
 If you want to specify one or more generations in particular, simply add `--generations <GENERATIONS>` at the end, for example (**note**: the generations must be comma-separated, and trailing commas are not supported):
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat.sh -s -g 3,4,Hisui,5
+$HOME/.pokemon-icat/pokemon-icat -g 3,4,Hisui,5
 ```
 
 If you want to show a pokemon in particular, just use the `--pokemon <POKEMON>` flag, for example:
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat.sh -s -p charizard
+$HOME/.pokemon-icat/pokemon-icat -p charizard
+```
+
+and if you want to suppress the Pokémon info, use the `--quiet` flag:
+
+```sh
+$HOME/.pokemon-icat/pokemon-icat -p charizard -q
 ```
 
 ## Known issues
 
-- Archaludon doesn't get downloaded
-- Image `10186.png` doesn't get downloaded (maybe it's Archaludon?)
+- check pokemon names
+- last DLC pokemons don't get downloaded (change the csv when this is fixed)
+- Image `10186.png` doesn't get downloaded
 
 ## would-like-to-do list
 

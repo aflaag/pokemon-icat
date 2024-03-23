@@ -46,32 +46,33 @@ sh install.sh -u 15
 To show a random pokemon, simply run:
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat
+pokemon-icat
 ```
+
+(the executable is inside [this folder](bin/pokemon-icat)).
 
 If you want to specify one or more generations in particular, simply add `--generations <GENERATIONS>` at the end, for example (**note**: the generations must be comma-separated, and trailing commas are not supported):
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat -g 3,4,Hisui,5
+pokemon-icat -g 3,4,Hisui,5
 ```
 
 If you want to show a pokemon in particular, just use the `--pokemon <POKEMON>` flag, for example:
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat -p charizard
+pokemon-icat -p charizard
 ```
 
 and if you want to suppress the Pokémon info, use the `--quiet` flag:
 
 ```sh
-$HOME/.pokemon-icat/pokemon-icat -p charizard -q
+pokemon-icat -p charizard -q
 ```
 
 To check all the available options, use the `--help` option.
 
 ## Known issues
 
-- check pokemon names
 - last DLC pokemons don't get downloaded (change the csv when this is fixed)
 - Image `10186.png` doesn't get downloaded
 

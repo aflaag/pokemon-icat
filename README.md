@@ -49,8 +49,6 @@ To show a random pokemon, simply run:
 pokemon-icat
 ```
 
-(the executable is inside [this folder](bin/pokemon-icat)).
-
 If you want to specify one or more generations in particular, simply add `--generations <GENERATIONS>` at the end, for example (**note**: the generations must be comma-separated, and trailing commas are not supported):
 
 ```sh

@@ -76,9 +76,11 @@ To check all the available options, use the `--help` option.
 
 ## would-like-to-do list
 
+- name and generation/region with separate commands
+- add type emojis
 - AUR package (very requested)
 - Nix package
-- add type emojis
 - rename the other images to include every available sprite
+    - do they contain regional forms?
 - shinies every once in a while
 

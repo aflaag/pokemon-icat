@@ -145,7 +145,8 @@ fn main() {
     home_path.push(format!("pokemon-icons/{}.png", pokemon.name));
 
     let conf = Config {
-        y: i16::from(!args.quiet),
+        // y: i16::from(!args.quiet),
+        absolute_offset: false,
         #[allow(
             clippy::cast_possible_truncation,
             clippy::cast_sign_loss,

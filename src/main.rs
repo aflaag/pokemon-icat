@@ -148,7 +148,7 @@ fn main() {
         println!(
             "{} {}",
             if pokemon.typing.is_empty() {
-                TYPES[18].to_string()
+                TYPES[18].to_string() // TODO: change this
             } else {
                 pokemon
                     .typing

@@ -6,6 +6,12 @@ use rand::{prelude::IteratorRandom, Rng};
 use viuer::{print_from_file, Config};
 
 const GENS_NUMBER: usize = 10;
+const TYPES_NUMBER: usize = 19;
+
+const TYPES: [&str; TYPES_NUMBER] = [
+    "🏳️", "🔥", "🌊", "⚡", "🍃", "🌨️", "🥊", "💀", "🌎", "🐦", "🔮", "🐞", "🗿", "👻", "🐲", "🌑",
+    "🔩", "🧚", "🚫",
+];
 const GENERATIONS: [(&str, &str); GENS_NUMBER] = [
     ("1", "I Generation"),
     ("2", "II Generation"),
@@ -72,6 +78,7 @@ struct Pokemon {
     name: String,
     generation: String,
     height: u32,
+    typing: String,
 }
 
 fn get_pokemon(pokemon_name: &str, pokemons: &[Pokemon]) -> Pokemon {
@@ -138,14 +145,25 @@ fn main() {
     };
 
     if !args.quiet {
-        println!("{} - {}", pokemon.name, gen_label(&pokemon.generation));
+        println!(
+            "{} {}",
+            if pokemon.typing.is_empty() {
+                TYPES[18].to_string()
+            } else {
+                pokemon
+                    .typing
+                    .split(' ')
+                    .map(|t| TYPES[t.parse::<usize>().expect("`pokemon_data.csv` is corrupted")])
+                    .collect::<String>()
+            },
+            pokemon.name,
+        );
     }
 
     home_path.pop();
     home_path.push(format!("pokemon-icons/{}.png", pokemon.name));
 
     let conf = Config {
-        // y: i16::from(!args.quiet),
         absolute_offset: false,
         #[allow(
             clippy::cast_possible_truncation,
@@ -161,4 +179,6 @@ fn main() {
     };
 
     print_from_file(&home_path, &conf).expect("failed to show the image");
+
+    println!("{}", gen_label(&pokemon.generation));
 }

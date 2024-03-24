@@ -76,8 +76,7 @@ To check all the available options, use the `--help` option.
 
 ## would-like-to-do list
 
-- name and generation/region with separate commands
-- add type emojis
+- finish type emojis
 - AUR package (very requested)
 - Nix package
 - rename the other images to include every available sprite

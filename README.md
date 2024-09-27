@@ -8,11 +8,13 @@ This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemo
 
 **Important**: this program relies on [viuer](https://github.com/atanunq/viuer), so check if your terminal is supported first.
 
-To use the script, you must first have all the these installed:
-
+To use the script, you must first install the required dependencies:
 - a supported terminal
 - `Python 3.9.x` or newer
-- `aiohttp` (Python library)
+- Run:
+    ```shell
+    pip install -r requirements.txt
+    ```
 
 ## Compilation
 

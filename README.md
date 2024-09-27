@@ -11,8 +11,7 @@ This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemo
 To use the script, you must first have all the these installed:
 
 - a supported terminal
-- `Python 3.8.x`
-- `numpy` (Python library)
+- `Python 3.9.x` or newer
 - `aiohttp` (Python library)
 
 ## Compilation
@@ -82,3 +81,6 @@ To check all the available options, use the `--help` option.
     - do they contain regional forms?
 - shinies every once in a while
 
+## Development
+
+Check out [development.md](development.md)

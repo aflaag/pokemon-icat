@@ -81,7 +81,6 @@ To check all the available options, use the `--help` option.
 - Nix package
 - rename the other images to include every available sprite
     - do they contain regional forms?
-- shinies every once in a while
 
 ## Development
 

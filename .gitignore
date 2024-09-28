@@ -1,6 +1,8 @@
-__pycache__
-
-/target
-Cargo.lock
+**/__pycache__
 .mypy_cache
 .ruff_cache
+
+/bin/pokemon-icat
+/target
+/venv
+Cargo.lock

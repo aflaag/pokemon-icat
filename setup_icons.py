@@ -433,7 +433,7 @@ async def build_tree_root() -> TreeNode:
 async def main() -> None:
     parser = argparse.ArgumentParser(description="Image processing tool")
     parser.add_argument(
-        "-u", "--upscale", type=float, metavar="FACTOR", required=True, help="Upscale the image by the specified factor"
+        "-u", "--upscale", type=float, metavar="FACTOR", default=3, help="Upscale the image by the specified factor"
     )
 
     # Add more arguments here as needed

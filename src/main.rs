@@ -148,9 +148,13 @@ fn main() {
         get_random_pokemon(&mut rng, &pokemons, &args.generations).unwrap()
     };
 
+    let luck_num = rand::thread_rng().gen_range(0..args.shiny_probability);
+
+    let is_shiny = luck_num == 0;
+
     if !args.quiet {
         println!(
-            "{} {}",
+            "{} {} {}",
             if pokemon.typing.is_empty() {
                 INVALID_TYPE_STR.to_string()
             } else {
@@ -161,14 +165,19 @@ fn main() {
                     .collect::<String>()
             },
             pokemon.name,
+            if is_shiny {
+                "✨"
+            } else {
+                ""
+            }
         );
     }
 
     home_path.pop();
 
     home_path.push("pokemon-icons");
-    let luck_num = rand::thread_rng().gen_range(0..args.shiny_probability);
-    if luck_num == 0 {
+
+    if is_shiny {
         home_path.push("shiny");
     } else {
         home_path.push("normal");

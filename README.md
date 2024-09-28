@@ -79,7 +79,7 @@ To check all the available options, use the `--help` option.
 ## Known issues
 
 - last DLC pokemons don't get downloaded (change the csv when this is fixed)
-- Image `10186.png` doesn't get downloaded
+- Image `678.png` doesn't get downloaded
 
 ## would-like-to-do list
 

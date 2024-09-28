@@ -56,6 +56,12 @@ If you want to specify one or more generations in particular, simply add `--gene
 pokemon-icat -g 3,4,Hisui,5
 ```
 
+Shiny pokemon are supported too, and the default shiny rate can be changed as follows:
+
+```sh
+pokemon-icat --shiny-probability=10
+```
+
 If you want to show a pokemon in particular, just use the `--pokemon <POKEMON>` flag, for example:
 
 ```sh

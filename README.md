@@ -8,12 +8,13 @@ This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemo
 
 **Important**: this program relies on [viuer](https://github.com/atanunq/viuer), so check if your terminal is supported first.
 
-To use the script, you must first have all the these installed:
-
+To use the script, you must first install the required dependencies:
 - a supported terminal
-- `Python 3.8.x`
-- `numpy` (Python library)
-- `aiohttp` (Python library)
+- `Python 3.9.x` or newer
+- Run:
+    ```shell
+    pip install -r requirements.txt
+    ```
 
 ## Compilation
 
@@ -55,6 +56,12 @@ If you want to specify one or more generations in particular, simply add `--gene
 pokemon-icat -g 3,4,Hisui,5
 ```
 
+Shiny pokemon are supported too, and the default shiny rate can be changed as follows:
+
+```sh
+pokemon-icat --shiny-probability=10
+```
+
 If you want to show a pokemon in particular, just use the `--pokemon <POKEMON>` flag, for example:
 
 ```sh
@@ -80,5 +87,7 @@ To check all the available options, use the `--help` option.
 - Nix package
 - rename the other images to include every available sprite
     - do they contain regional forms?
-- shinies every once in a while
 
+## Development
+
+Check out [development.md](development.md)

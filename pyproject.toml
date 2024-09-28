@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "pokemon-icat"
+version = "1.0.0"
+description = "Shows any Pokémon sprite in your terminal!"
+authors = ["Your Name <you@example.com>"]
+license = "GPL-3.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.14"
+aiohttp = "^3.10.6"
+pillow = "^10.4.0"
+python-slugify = "^8.0.4"
+rich = "^13.8.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.8.0"
+ruff = "^0.6.8"
+mypy = "^1.11.2"
+types-pillow = "^10.2.0.20240822"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+
+follow_imports = "silent"
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = true
+
+# for strict mypy: (this is the tricky one :-))
+disallow_untyped_defs = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "I", "UP"]

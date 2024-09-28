@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
 
-ROOT=$HOME/.pokemon-icat
+set -xe
+
+ROOT=$HOME/.cache/pokemon-icat
 
 mkdir -p $ROOT
 mkdir -p $ROOT/pokemon-icons
 
+sh compile.sh
+
 cp -r bin/* $ROOT
 
-python3 $ROOT/setup_icons.py $1 $2
+rm -rf venv
+python3 -m venv venv
+source venv/bin/activate
+
+pip install -r requirements.txt
+python3 setup_icons.py $1 $2
+
+deactivate
+rm -rf venv

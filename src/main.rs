@@ -165,11 +165,7 @@ fn main() {
                     .collect::<String>()
             },
             pokemon.name,
-            if is_shiny {
-                "✨"
-            } else {
-                ""
-            }
+            if is_shiny { "✨" } else { "" }
         );
     }
 
@@ -198,5 +194,7 @@ fn main() {
     // println!("{:?}", home_path);
     print_from_file(&home_path, &conf).expect("failed to show the image");
 
-    println!("{}", gen_label(&pokemon.generation));
+    if !args.quiet {
+        println!("{}", gen_label(&pokemon.generation));
+    }
 }

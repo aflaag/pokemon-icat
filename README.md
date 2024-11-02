@@ -1,6 +1,6 @@
 # pokemon-icat
 
-This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemon-colorscripts), but since the output heavily depends on the font of your terminal, i decided to make a script that shows a true PNG image of the Pokémon (of course, this script requires a terminal that supports images).
+This script is inspired by [this project](https://gitlab.com/phoneybadger/pokemon-colorscripts), but since the output heavily depends on the font of your terminal, I decided to make a script that shows a true PNG image of the Pokémon (of course, this script requires a terminal that supports images).
 
 ![Screenshot](screenshot.png)
 

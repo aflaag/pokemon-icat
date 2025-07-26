@@ -1,4 +1,4 @@
-use std::fs::File;
+use std::{fs::File, path::PathBuf};
 
 use clap::Parser;
 use csv::Reader;
@@ -115,9 +115,11 @@ fn gen_label(gen: &str) -> &str {
 }
 
 fn main() {
-    let mut home_path = home::home_dir().expect("unable to get home dir");
+    // let mut home_path = home::home_dir().expect("unable to get home dir");
+    //
+    // assert!(!home_path.as_os_str().is_empty(), "unable to get home dir");
 
-    assert!(!home_path.as_os_str().is_empty(), "unable to get home dir");
+    let mut home_path = PathBuf::from("/usr");
 
     let args = ProgramArgs::parse();
 
@@ -130,7 +132,7 @@ fn main() {
         }
     }
 
-    home_path.push(".cache/pokemon-icat");
+    home_path.push("share/pokemon-icat");
     home_path.push("pokemon_data.csv");
 
     let pokemon_data = File::open(&home_path).expect("missing `pokemon_data.csv` file");

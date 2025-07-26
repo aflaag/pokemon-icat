@@ -32,4 +32,4 @@ python3 setup_icons.py $1 $2
 deactivate
 rm -rf venv
 
-echo "Done! You can find the executable at $ROOT/pokemon-icat"
+echo "pokemon-icat was successfully installed! :)"

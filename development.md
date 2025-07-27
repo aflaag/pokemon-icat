@@ -4,7 +4,7 @@ Ideally, `pre-commit` should be installed along with:
 - `ruff` ([installation instructions](https://docs.astral.sh/ruff/installation/))
 - `mypy` ([installation instructions](https://mypy.readthedocs.io/en/stable/getting_started.html))
 - `poetry` ([installation instructions](https://python-poetry.org/docs/))
-- `pipx' ([installation instructions](https://pipx.pypa.io/stable/installation/))
+- `pipx` ([installation instructions](https://pipx.pypa.io/stable/installation/))
 - `cargo-edit` (`cargo install cargo-edit`)
 
 #### Install all (main+dev) dependencies:

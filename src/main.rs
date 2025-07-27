@@ -1,4 +1,4 @@
-use std::{fs::File, path::PathBuf};
+use std::{fs::File, path::PathBuf, env};
 
 use clap::Parser;
 use csv::Reader;
@@ -119,7 +119,8 @@ fn main() {
     //
     // assert!(!home_path.as_os_str().is_empty(), "unable to get home dir");
 
-    let mut home_path = PathBuf::from("/usr");
+    // let mut home_path = PathBuf::from("/usr");
+    let mut home_path = PathBuf::from(env::var("POKEMON_ICAT_DATA"));
 
     let args = ProgramArgs::parse();
 

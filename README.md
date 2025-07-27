@@ -16,16 +16,6 @@ To use the script, you must first install the required dependencies:
     pip install -r requirements.txt
     ```
 
-## Compilation
-
-Note that the binary is already present inside `bin/pokemon-icat`, but if you need to compile the program, simply run:
-
-```sh
-sh compile.sh
-```
-
-(note that this script requires `cargo`).
-
 ## Installation
 
 After making sure that you have all of the requirements, run the following command:
@@ -86,16 +76,18 @@ To check all the available options, use the `--help` option.
 
 ## Known issues
 
-- last DLC pokemons don't get downloaded (change the csv when this is fixed)
+- Multiple images return an error while downloading because they do not exist
+- Last DLC pokemons don't get downloaded (change the csv when this is fixed)
 - Image `678.png` doesn't get downloaded
 
 ## would-like-to-do list
 
 - AUR package (very requested)
-- Nix package
+- Nix package (WIP)
 - rename the other images to include every available sprite
     - do they contain regional forms?
 
 ## Development
 
 Check out [development.md](development.md)
+

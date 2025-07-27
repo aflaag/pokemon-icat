@@ -1,68 +1,57 @@
 # { pkgs ? import <nixpkgs> {}, src ? ./. }:
 { pkgs ? import <nixpkgs> {} }:
 let
-    python = pkgs.python3;
-    py = python.pkgs;
-    pokemon-icons = py.buildPythonApplication {
+    pythonWithDeps = pkgs.python3.withPackages (ps: with ps; [
+        aiohappyeyeballs
+        aiohttp
+        aiosignal
+        "async-timeout"
+        attrs
+        frozenlist
+        idna
+        "markdown-it-py"
+        mdurl
+        multidict
+        pillow
+        propcache
+        pygments
+        "python-slugify"
+        rich
+        "text-unidecode"
+        "typing-extensions"
+        yarl
+    ]);
+
+    pokemon-icons = pkgs.stdenv.mkDerivation {
+    # pokemon-icons = pkgs.rustPlatform.buildRustPackage {
         pname = "pokemon-icons";
         version = "1.2.0";
-        # format = "other"; # no setup.py/pyproject.toml
 
-        format = ./pyproject.toml;
+        outputHashMode = "recursive";
+        outputHashAlgo = "sha256";
+        outputHash = "sha256-RKve62/khQMo71pYzefiEhi2vIde/r3bNslLhs/00rk=";
+        # outputHash = "sha256-1TnfKN8Ij+pbK6vLXdvbV1qud2HfDHeIJQTzTK+jJP0=";
+        # outputHash = "sha256-hOWfpeQz0or/2G9VzYnuc6AFHvlsS5NjmQmMOC01jFM=";
+
         src = ./.;
-
-        propagatedBuildInputs = with py; [
-          aiohappyeyeballs
-          aiohttp
-          aiosignal
-          async-timeout
-          attrs
-          frozenlist
-          idna
-          markdown-it-py
-          mdurl
-          multidict
-          pillow
-          propcache
-          pygments
-          python-slugify
-          rich
-          text-unidecode
-          typing-extensions
-          yarl
-        ];
-
-        nativeBuildInputs = [
-          pkgs.cacert
-        ];
-
-        buildPhase = ''
-          export POKEMON_ICAT_DATA=$TMPDIR
-          mkdir -p "$POKEMON_ICAT_DATA"
-          ${python.interpreter} setup_icons.py
-        '';
-        # src = ./.;
         # src = src;
 
         buildInputs = [
-            # pythonWithDeps
+            pythonWithDeps
             pkgs.cacert
         ];
 
-        # buildPhase = ''
-        #     export POKEMON_ICAT_DATA=$TMPDIR
-        #     mkdir -p $POKEMON_ICAT_DATA
-        #     python3 setup_icons.py
-        # '';
+        buildPhase = ''
+            export POKEMON_ICAT_DATA=$TMPDIR
+            mkdir -p $POKEMON_ICAT_DATA
+            python3 setup_icons.py
+        '';
 
         installPhase = ''
             mkdir -p $out
             cp -r $POKEMON_ICAT_DATA/pokemon-icons $out
         '';
 
-        outputHashMode = "recursive";
-        outputHashAlgo = "sha256";
-        outputHash = "sha256-RKve62/khQMo71pYzefiEhi2vIde/r3bNslLhs/00rk=";
     };
 
     # pokemon-icat = pkgs.stdenv.mkDerivation {

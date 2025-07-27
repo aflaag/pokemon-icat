@@ -42,6 +42,14 @@ By default, this will download every Pokémon with an upscaling factor of the or
 sh install.sh -u 15
 ```
 
+### Arch
+
+If you would like to contribute, an AUR package would be awesome!
+
+### NixOS
+
+The current flake *does not work* yet, it is still WIP.
+
 ## Usage
 
 To show a random Pokémon, simply run:

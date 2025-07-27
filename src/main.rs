@@ -120,7 +120,7 @@ fn main() {
     // assert!(!home_path.as_os_str().is_empty(), "unable to get home dir");
 
     // let mut home_path = PathBuf::from("/usr");
-    let mut home_path = PathBuf::from(env::var("POKEMON_ICAT_DATA"));
+    let mut home_path = PathBuf::from(env::var("POKEMON_ICAT_DATA").expect("$POKEMON_ICAT_DATA is not set"));
 
     let args = ProgramArgs::parse();
 
@@ -135,6 +135,8 @@ fn main() {
 
     home_path.push("share/pokemon-icat");
     home_path.push("pokemon_data.csv");
+
+    println!("test {:?}", home_path);
 
     let pokemon_data = File::open(&home_path).expect("missing `pokemon_data.csv` file");
 

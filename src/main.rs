@@ -115,12 +115,7 @@ fn gen_label(gen: &str) -> &str {
 }
 
 fn main() {
-    // let mut home_path = home::home_dir().expect("unable to get home dir");
-    //
-    // assert!(!home_path.as_os_str().is_empty(), "unable to get home dir");
-
-    // let mut home_path = PathBuf::from("/usr");
-    let mut home_path = PathBuf::from(env::var("POKEMON_ICAT_DATA").expect("$POKEMON_ICAT_DATA is not set"));
+    let mut root_path = PathBuf::from(env::var("POKEMON_ICAT_DATA").expect("$POKEMON_ICAT_DATA is not set"));
 
     let args = ProgramArgs::parse();
 
@@ -133,12 +128,9 @@ fn main() {
         }
     }
 
-    home_path.push("share/pokemon-icat");
-    home_path.push("pokemon_data.csv");
+    root_path.push("pokemon_data.csv");
 
-    println!("test {:?}", home_path);
-
-    let pokemon_data = File::open(&home_path).expect("missing `pokemon_data.csv` file");
+    let pokemon_data = File::open(&root_path).expect("missing `pokemon_data.csv` file");
 
     let pokemons: Vec<Pokemon> = Reader::from_reader(pokemon_data)
         .deserialize()
@@ -174,17 +166,16 @@ fn main() {
         );
     }
 
-    home_path.pop();
-
-    home_path.push("pokemon-icons");
+    root_path.pop();
+    root_path.push("pokemon-icons");
 
     if is_shiny {
-        home_path.push("shiny");
+        root_path.push("shiny");
     } else {
-        home_path.push("normal");
+        root_path.push("normal");
     }
 
-    home_path.push(format!("{}.png", pokemon.name));
+    root_path.push(format!("{}.png", pokemon.name));
 
     let conf = Config {
         absolute_offset: false,
@@ -196,8 +187,7 @@ fn main() {
         ..Default::default()
     };
 
-    // println!("{:?}", home_path);
-    print_from_file(&home_path, &conf).expect("failed to show the image");
+    print_from_file(&root_path, &conf).expect("failed to show the image");
 
     if !args.quiet {
         println!("{}", gen_label(&pokemon.generation));

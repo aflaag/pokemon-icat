@@ -1,6 +1,7 @@
 import argparse
 import asyncio
 import re
+import os
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
@@ -30,9 +31,13 @@ URL_TREE = "https://api.github.com/repos/PokeAPI/sprites/git/trees/c87f4ced89853
 URL_POINT_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master"
 
 # dirs
-CACHE_DIR = Path.home() / ".cache"
-POKEMON_ICAT_DIR = CACHE_DIR / "pokemon-icat"
+# CACHE_DIR = Path.home() / ".cache"
+# CACHE_DIR = Path("$POKEMON_ICAT_DATA")
+# POKEMON_ICAT_DIR = CACHE_DIR / "pokemon-icat"
+# POKEMON_ICAT_DIR = Path("$POKEMON_ICAT_DATA")
+POKEMON_ICAT_DIR = Path(os.environ["POKEMON_ICAT_DATA"])
 POKEMON_ICAT_DIR.mkdir(exist_ok=True, parents=True)
+
 POKEMON_ICONS_DIR = POKEMON_ICAT_DIR / "pokemon-icons"
 POKEMON_ICONS_DIR.mkdir(exist_ok=True, parents=True)
 

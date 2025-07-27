@@ -44,15 +44,15 @@ let
         # src = src;
 
         buildInputs = [
-            pythonWithDeps
+            # pythonWithDeps
             pkgs.cacert
         ];
 
-        buildPhase = ''
-            export POKEMON_ICAT_DATA=$TMPDIR
-            mkdir -p $POKEMON_ICAT_DATA
-            python3 setup_icons.py
-        '';
+        # buildPhase = ''
+        #     export POKEMON_ICAT_DATA=$TMPDIR
+        #     mkdir -p $POKEMON_ICAT_DATA
+        #     python3 setup_icons.py
+        # '';
 
         installPhase = ''
             mkdir -p $out

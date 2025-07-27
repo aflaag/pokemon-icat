@@ -36,10 +36,10 @@ URL_POINT_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master"
 # POKEMON_ICAT_DIR = CACHE_DIR / "pokemon-icat"
 # POKEMON_ICAT_DIR = Path("$POKEMON_ICAT_DATA")
 POKEMON_ICAT_DIR = Path(os.environ["POKEMON_ICAT_DATA"])
-POKEMON_ICAT_DIR.mkdir(exist_ok=True, parents=True)
+# POKEMON_ICAT_DIR.mkdir(exist_ok=True, parents=True)
 
 POKEMON_ICONS_DIR = POKEMON_ICAT_DIR / "pokemon-icons"
-POKEMON_ICONS_DIR.mkdir(exist_ok=True, parents=True)
+# POKEMON_ICONS_DIR.mkdir(exist_ok=True, parents=True)
 
 
 POKEMON_PATHS = [
@@ -47,8 +47,8 @@ POKEMON_PATHS = [
     PokemonPath(path="/sprites/pokemon/shiny", folder=POKEMON_ICONS_DIR / "shiny"),
 ]
 
-for pokemon_path in POKEMON_PATHS:
-    pokemon_path.folder.mkdir(exist_ok=True)
+# for pokemon_path in POKEMON_PATHS:
+#     pokemon_path.folder.mkdir(exist_ok=True)
 
 
 @dataclass

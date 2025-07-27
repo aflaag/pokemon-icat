@@ -2,14 +2,38 @@
 
 set -xe
 
-ROOT=$HOME/.cache/pokemon-icat
+export POKEMON_ICAT_DATA="$HOME/.local/share/pokemon-icat"
 
-mkdir -p $ROOT
-mkdir -p $ROOT/pokemon-icons
+USER_SHELL=$(basename "$SHELL")
+
+add_line_if_missing() {
+  local line="$1"
+  local file="$2"
+  grep -qxF "$line" "$file" 2>/dev/null || echo "$line" >> "$file"
+}
+
+add_line_if_missing "export POKEMON_ICAT_DATA=$POKEMON_ICAT_DATA" "$HOME/.profile"
+
+case "$USER_SHELL" in
+  zsh)
+    add_line_if_missing "source ~/.profile" "$HOME/.zshrc"
+    add_line_if_missing "source ~/.profile" "$HOME/.zprofile"
+    add_line_if_missing "pokemon-icat # https://github.com/aflaag/pokemon-icat" "$HOME/.zshrc"
+    ;;
+  fish)
+    add_line_if_missing "set -x POKEMON_ICAT_DATA $POKEMON_ICAT_DATA" "$HOME/.config/fish/config.fish"
+    ;;
+  *)
+    echo "please add 'export POKEMON_ICAT_DATA=$POKEMON_ICAT_DATA' to your shell config manually!"
+    ;;
+esac
+
+mkdir -p $POKEMON_ICAT_DATA/pokemon-icons/normal
+mkdir -p $POKEMON_ICAT_DATA/pokemon-icons/shiny
 
 sh compile.sh
 
-cp -r bin/* $ROOT
+cp -r bin/* "$POKEMON_ICAT_DATA"
 
 rm -rf venv
 python3 -m venv venv
@@ -27,7 +51,7 @@ else
 fi
 
 pip install -r requirements.txt
-python3 setup_icons.py $1 $2
+python3 setup_icons.py "$@"
 
 deactivate
 rm -rf venv

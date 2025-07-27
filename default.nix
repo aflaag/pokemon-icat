@@ -1,3 +1,4 @@
+# { pkgs ? import <nixpkgs> {}, src ? ./. }:
 { pkgs ? import <nixpkgs> {} }:
 let
     pythonWithDeps = pkgs.python3.withPackages (ps: with ps; [
@@ -20,16 +21,18 @@ let
         "typing-extensions"
         yarl
     ]);
+
     pokemon-icons = pkgs.stdenv.mkDerivation {
+    # pokemon-icons = pkgs.rustPlatform.buildRustPackage {
         pname = "pokemon-icons";
         version = "1.2.0";
 
         outputHashMode = "recursive";
         outputHashAlgo = "sha256";
-        # outputHash = "sha256-Py3Sfci1625ZYVRoWVyaOQtP9qXpNl6afOqwRkFXH7E=";
-        outputHash = "sha256-E8ev6zMB7Dbsw9YksPisSDwV3gQTckemYHG3lj4eYyU=";
+        outputHash = "sha256-RKve62/khQMo71pYzefiEhi2vIde/r3bNslLhs/00rk=";
 
         src = ./.;
+        # src = src;
 
         buildInputs = [
             pythonWithDeps
@@ -48,26 +51,26 @@ let
         '';
 
     };
-    # pokemon-icat = pkgs.rustPlatform.buildRustPackage rec {
-    pokemon-icat = pkgs.stdenv.mkDerivation {
+
+    # pokemon-icat = pkgs.stdenv.mkDerivation {
+    pokemon-icat = pkgs.rustPlatform.buildRustPackage {
         pname = "pokemon-icat";
         version = "1.2.0";
 
         src = ./.;
-        # src = pkgs.lib.cleanSourceWith {
-        #     src = ./.;
-        #     filter = path: type:
-        #         !(pkgs.lib.hasInfix "/.git/" path);
-        # };
+        # src = src;
 
-        cargoVendorDir = ./vendor;
-        # cargoVendorDir = pkgs.lib.cleanSource ./vendor;;
+        # cargoVendorDir = ./vendor;
         # cargoSha256 = pkgs.lib.fakeSha256;
+        cargoLock = {
+            lockFile = ./Cargo.lock;
+        };
+        # doNotUseCargoVendor = true;
 
         nativeBuildInputs = [
-            pkgs.cargo
-            pkgs.rustc
-            pkgs.pkg-config
+            # pkgs.cargo
+            # pkgs.rustc
+            # pkgs.pkg-config
             pkgs.makeWrapper
         ];
 
@@ -91,9 +94,5 @@ in
 {
     inherit pokemon-icons pokemon-icat;
 
-    # defaultPackages = pkgs.linkFarm "pokemon-full" [
-    #     { name = "pokemon-icat"; path = pokemon-icat; }
-    #     { name = "pokemon-icons"; path = pokemon-icons; }
-    # ];
     defaultPackages = pokemon-icat;
 }

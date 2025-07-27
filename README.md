@@ -26,7 +26,13 @@ git clone https://github.com/aflaag/pokemon-icat && cd pokemon-icat && sh instal
 
 which should start the installation process of the script, by downloading every picture of every Pokémon.
 
-By default, this will download every Pokémon with an upscaling factor of the original image of `3`, but if you want to change this behaviour run the last command with the option `--upscale <FACTOR>`, for example:
+Note that this script will add an environment variable `$POKEMON_ICAT_DATA` which is used by the binary at runtime. To achieve this, the script modifies the following files:
+- `$HOME/.profile`
+- `$HOME/.zprofile`
+- `$HOME/.zshrc`
+- `$HOME/.config/fish/config.fish`
+
+Moreover, by default this will download every Pokémon with an upscaling factor of the original image of `3`, but if you want to change this behaviour run the last command with the option `--upscale <FACTOR>`, for example:
 
 ```sh
 sh install.sh -u 15

@@ -29,7 +29,8 @@ let
 
         outputHashMode = "recursive";
         outputHashAlgo = "sha256";
-        outputHash = "sha256-RKve62/khQMo71pYzefiEhi2vIde/r3bNslLhs/00rk=";
+        # outputHash = "sha256-RKve62/khQMo71pYzefiEhi2vIde/r3bNslLhs/00rk=";
+        outputHash = "sha256-tWMzXjdpXBTDI6Rygoaac5eYxJPc9xrkD7hRnVkzJz0=";
         # outputHash = "sha256-1TnfKN8Ij+pbK6vLXdvbV1qud2HfDHeIJQTzTK+jJP0=";
         # outputHash = "sha256-hOWfpeQz0or/2G9VzYnuc6AFHvlsS5NjmQmMOC01jFM=";
 

@@ -15,6 +15,9 @@ add_line_if_missing() {
 add_line_if_missing "export POKEMON_ICAT_DATA=$POKEMON_ICAT_DATA" "$HOME/.profile"
 
 case "$USER_SHELL" in
+  bash)
+    add_line_if_missing "pokemon-icat # https://github.com/aflaag/pokemon-icat" "$HOME/.bashrc"
+    ;;
   zsh)
     add_line_if_missing "source ~/.profile" "$HOME/.zshrc"
     add_line_if_missing "source ~/.profile" "$HOME/.zprofile"

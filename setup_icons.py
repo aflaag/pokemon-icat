@@ -286,11 +286,11 @@ async def download_single_pokemon(
     )
 
     # save the processed RGBA image
-    img.save(destination, optimize=True)
+    img.save(destination)
     
-    os.utime(destination, (0, 0))
-
-    subprocess.run(["optipng", "-strip", "all", "-quiet", "-o7", str(destination)], check=True)
+    # os.utime(destination, (0, 0))
+    #
+    # subprocess.run(["optipng", "-strip", "all", "-quiet", "-o7", str(destination)], check=True)
 
 def get_pokemon_id(p: GitObject) -> Optional[str]:
     found = re.search(r"([0-9]+)", p.path.stem)

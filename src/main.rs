@@ -158,7 +158,8 @@ fn main() {
                 pokemon
                     .typing
                     .split(' ')
-                    .map(|t| TYPES[t.parse::<usize>().expect("`pokemon_data.csv` is corrupted")])
+                    // out-of-range types (e.g. MissingNo's "18") show as invalid
+                    .map(|t| *TYPES.get(t.parse::<usize>().expect("`pokemon_data.csv` is corrupted")).unwrap_or(&INVALID_TYPE_STR))
                     .collect::<String>()
             },
             pokemon.name,

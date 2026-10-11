@@ -86,6 +86,8 @@ pokemon-icat -p gyarados -l fr   # Léviator, Génération I
 pokemon-icat -p Léviator -l ja   # ギャラドス, 第1世代
 ```
 
+![Gyarados shown in English, French and Japanese](screenshot-lang.png)
+
 To make it the default, set `POKEMON_ICAT_LANG` in your shell config:
 
 ```sh

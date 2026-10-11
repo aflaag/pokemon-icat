@@ -26,11 +26,26 @@ git clone https://github.com/aflaag/pokemon-icat && cd pokemon-icat && sh instal
 
 which should start the installation process of the script, by downloading every picture of every Pokémon.
 
-Note that this script will add an environment variable `$POKEMON_ICAT_DATA` which is used by the binary at runtime. To achieve this, the script modifies the following files:
+Note that this script will add an environment variable `$POKEMON_ICAT_DATA` which is used by the binary at runtime, and a `pokemon-icat` call so that a Pokémon is shown every time you open a terminal. To achieve this, the script modifies the following files, depending on your shell:
 - `$HOME/.profile`
-- `$HOME/.zprofile`
-- `$HOME/.zshrc`
-- `$HOME/.config/fish/config.fish`
+- `$HOME/.bashrc` (bash)
+- `$HOME/.zprofile` and `$HOME/.zshrc` (zsh)
+- `$HOME/.config/fish/config.fish` (fish)
+
+With any other shell, or to add it by hand, put this at the end of your shell config (any of the options described in [Usage](#usage) can be added to the call):
+
+```sh
+# ~/.bashrc or ~/.zshrc
+export POKEMON_ICAT_DATA="$HOME/.local/share/pokemon-icat"
+pokemon-icat
+
+# ~/.config/fish/config.fish
+set -gx POKEMON_ICAT_DATA $HOME/.local/share/pokemon-icat
+if status is-interactive
+    pokemon-icat
+end
+```
+
 Some users reported that a reboot was necessary for the program to function correctly.
 
 Moreover, by default this will download every Pokémon with an upscaling factor of the original image of `3`, but if you want to change this behaviour run the last command with the option `--upscale <FACTOR>`, for example:

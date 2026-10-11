@@ -57,8 +57,8 @@ def main() -> None:
         writer = csv.DictWriter(f, fieldnames=fields, quoting=csv.QUOTE_NONNUMERIC, lineterminator="\n")
         writer.writeheader()
         for row in rows:
-            row["height"] = int(row["height"])
-            writer.writerow({field: row[field] for field in fields})
+            # numbers unquoted, like in the original file
+            writer.writerow({field: int(row[field]) if field == "height" else row[field] for field in fields})
 
     missing = [row["name"] for row in rows if species_ids.get(row["name"]) is None]
     print(f"updated {len(rows)} pokemons in {DATA_CSV}; without species: {missing}")

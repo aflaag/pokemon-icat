@@ -25,6 +25,7 @@ case "$USER_SHELL" in
     ;;
   fish)
     add_line_if_missing "set -x POKEMON_ICAT_DATA $POKEMON_ICAT_DATA" "$HOME/.config/fish/config.fish"
+    add_line_if_missing "status is-interactive; and pokemon-icat # https://github.com/aflaag/pokemon-icat" "$HOME/.config/fish/config.fish"
     ;;
   *)
     echo "please add 'export POKEMON_ICAT_DATA=$POKEMON_ICAT_DATA' to your shell config manually!"

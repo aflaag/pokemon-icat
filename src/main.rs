@@ -1,6 +1,6 @@
-use std::{fs::File, path::PathBuf, env};
+use std::{env, fs::File, path::PathBuf};
 
-use clap::Parser;
+use clap::{Parser, ValueEnum};
 use csv::Reader;
 use rand::{prelude::IteratorRandom, Rng};
 use viuer::{print_from_file, Config};
@@ -11,18 +11,27 @@ const TYPES: [&str; 18] = [
 ];
 const INVALID_TYPE_STR: &str = "🚫";
 
-const GENERATIONS: [(&str, &str); 10] = [
-    ("1", "I Generation"),
-    ("2", "II Generation"),
-    ("3", "III Generation"),
-    ("4", "IV Generation"),
-    ("5", "V Generation"),
-    ("6", "VI Generation"),
-    ("7", "VII Generation"),
-    ("8", "VIII Generation"),
-    ("Hisui", "Hisui Region"),
-    ("9", "IX Generation"),
+// generation id, then its label in each `Lang` (en, fr, ja)
+const GENERATIONS: [(&str, [&str; 3]); 10] = [
+    ("1", ["I Generation", "Génération I", "第1世代"]),
+    ("2", ["II Generation", "Génération II", "第2世代"]),
+    ("3", ["III Generation", "Génération III", "第3世代"]),
+    ("4", ["IV Generation", "Génération IV", "第4世代"]),
+    ("5", ["V Generation", "Génération V", "第5世代"]),
+    ("6", ["VI Generation", "Génération VI", "第6世代"]),
+    ("7", ["VII Generation", "Génération VII", "第7世代"]),
+    ("8", ["VIII Generation", "Génération VIII", "第8世代"]),
+    ("Hisui", ["Hisui Region", "Région de Hisui", "ヒスイ地方"]),
+    ("9", ["IX Generation", "Génération IX", "第9世代"]),
 ];
+
+/// language used for the Pokémon names and the generation labels
+#[derive(ValueEnum, Clone, Copy, Debug)]
+pub enum Lang {
+    En,
+    Fr,
+    Ja,
+}
 
 /// Show Pokémons inside your terminal!
 #[derive(Parser, Debug)]
@@ -54,6 +63,16 @@ pub struct ProgramArgs {
     /// makes the pokemon shiny
     #[clap(long, default_value = "8192", value_parser)]
     pub shiny_probability: u32,
+
+    /// language of the Pokémon info
+    #[clap(
+        short,
+        long,
+        value_enum,
+        env = "POKEMON_ICAT_LANG",
+        default_value = "en"
+    )]
+    pub lang: Lang,
 }
 
 fn check_scale(scale: &str) -> Result<f32, String> {
@@ -78,16 +97,44 @@ fn check_height(height: &str) -> Result<u32, String> {
 
 #[derive(Debug, Clone, serde::Deserialize)]
 struct Pokemon {
+    // PokeAPI identifier, also the icon file name
     name: String,
     generation: String,
     height: u32,
     typing: String,
+    // localized names, added by update_names.py (may be missing in older data)
+    #[serde(default)]
+    name_en: String,
+    #[serde(default)]
+    name_fr: String,
+    #[serde(default)]
+    name_ja: String,
+}
+
+impl Pokemon {
+    fn localized_names(&self) -> [&str; 3] {
+        [&self.name_en, &self.name_fr, &self.name_ja]
+    }
+
+    fn display_name(&self, lang: Lang) -> &str {
+        let name = self.localized_names()[lang as usize];
+        if name.is_empty() {
+            &self.name
+        } else {
+            name
+        }
+    }
 }
 
 fn get_pokemon(pokemon_name: &str, pokemons: &[Pokemon]) -> Pokemon {
     pokemons
         .iter()
-        .find(|p| p.name == pokemon_name)
+        .find(|p| {
+            p.name == pokemon_name
+                || p.localized_names()
+                    .iter()
+                    .any(|n| !n.is_empty() && n.to_lowercase() == pokemon_name.to_lowercase())
+        })
         .expect("the given pokemon does not exist")
         .clone()
 }
@@ -110,12 +157,13 @@ fn get_random_pokemon<R: Rng + Clone>(
         .cloned()
 }
 
-fn gen_label(gen: &str) -> &str {
-    GENERATIONS.iter().find(|(g, _)| *g == gen).unwrap().1
+fn gen_label(gen: &str, lang: Lang) -> &str {
+    GENERATIONS.iter().find(|(g, _)| *g == gen).unwrap().1[lang as usize]
 }
 
 fn main() {
-    let mut root_path = PathBuf::from(env::var("POKEMON_ICAT_DATA").expect("$POKEMON_ICAT_DATA is not set"));
+    let mut root_path =
+        PathBuf::from(env::var("POKEMON_ICAT_DATA").expect("$POKEMON_ICAT_DATA is not set"));
 
     let args = ProgramArgs::parse();
 
@@ -159,10 +207,14 @@ fn main() {
                     .typing
                     .split(' ')
                     // out-of-range types (e.g. MissingNo's "18") show as invalid
-                    .map(|t| *TYPES.get(t.parse::<usize>().expect("`pokemon_data.csv` is corrupted")).unwrap_or(&INVALID_TYPE_STR))
+                    .map(|t| {
+                        *TYPES
+                            .get(t.parse::<usize>().expect("`pokemon_data.csv` is corrupted"))
+                            .unwrap_or(&INVALID_TYPE_STR)
+                    })
                     .collect::<String>()
             },
-            pokemon.name,
+            pokemon.display_name(args.lang),
             if is_shiny { "✨" } else { "" }
         );
     }
@@ -191,6 +243,6 @@ fn main() {
     print_from_file(&root_path, &conf).expect("failed to show the image");
 
     if !args.quiet {
-        println!("{}", gen_label(&pokemon.generation));
+        println!("{}", gen_label(&pokemon.generation, args.lang));
     }
 }

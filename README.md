@@ -79,6 +79,31 @@ and if you want to suppress the Pokémon info, use the `--quiet` flag:
 pokemon-icat -p charizard -q
 ```
 
+Pokémon names and generation labels can be shown in English (default), French or Japanese with `--lang <en|fr|ja>`:
+
+```sh
+pokemon-icat -p gyarados -l fr   # Léviator, Génération I
+pokemon-icat -p Léviator -l ja   # ギャラドス, 第1世代
+```
+
+![Gyarados shown in English, French and Japanese](screenshot-lang.png)
+
+To make it the default, set `POKEMON_ICAT_LANG` in your shell config:
+
+```sh
+# ~/.bashrc or ~/.zshrc
+export POKEMON_ICAT_LANG=fr
+
+# ~/.config/fish/config.fish
+set -gx POKEMON_ICAT_LANG fr
+```
+
+`--pokemon` accepts the name in any of these languages. The localized names live in extra columns of `bin/pokemon_data.csv` (the `name` column stays the icon file name) and are generated from [PokeAPI](https://github.com/PokeAPI/pokeapi); to refresh them, run:
+
+```sh
+python3 update_names.py
+```
+
 To check all the available options, use the `--help` option.
 
 ## Known issues

@@ -261,6 +261,7 @@ async def download_single_pokemon(
 
     async with session.get(url) as response:
         try:
+            response.raise_for_status()
             # load the image in PNG indexed format
             buffer = BytesIO(await response.read())
             buffer.seek(0)
@@ -353,6 +354,10 @@ class TreeNode:
             if "-mega" in png_name or "-primal" in png_name:
                 continue
             if png_name in RANGE_3D:  # Assuming RANGE_3D is defined elsewhere
+                continue
+            # keep only "<dex number>.png": form sprites ("201-a.png", "25-alola-cap.png"...)
+            # would be saved under the base name and overwrite the base sprite
+            if pokemon_obj.path.stem not in POKEMONS_METADATA:
                 continue
             filtered_pokemon_objs.append(pokemon_obj)
 

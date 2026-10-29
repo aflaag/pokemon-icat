@@ -7,9 +7,9 @@ license = "GPL-3.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.14"
-aiohttp = "^3.10.6"
-pillow = "^10.4.0"
+python = ">=3.9"
+aiohttp = "^3.13.5"
+pillow = "^11.3.0"
 python-slugify = "^8.0.4"
 rich = "^13.8.1"
 
